@@ -8,7 +8,7 @@
     <!-- /.row -->
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Importações
@@ -21,20 +21,15 @@
                                 
                                     <?php
                                         foreach($files as $file){
-                                            $fileName = explode('/', $file);
+                                            $fileName = explode('/', $file['name']);
                                             $fileName = end($fileName);
                                     ?>
-                                    <div class="row">
-                                    <div class="col-lg-12">
-                                        <form role="form" method="post" action="<?=base_url() . 'saas/importacoes/gravardwg';?>" enctype="multipart/form-data">
-                                            <div class="form-group">
-                                              <label><?= $fileName ?></label>
-                                              <input type="hidden" name="filename" value="<?= $file ?>" />
-                                              <button type="submit" class="btn btn-primary btn-block" style="width:35%;float:right"><i class="fa fa-cloud-upload"></i> Importar</button>
-                                            </div>
-                                        </form>
-                                        </div>
-                                        </div>
+                                    <div style="border:1px solid #E4E4E4;margin-bottom:5px" class="panel-body">
+
+                                        <span style="font-size:16px;"><strong><?= $fileName ?></strong></span>
+                                        <a style="width:25%;float:right" href="<?=base_url() . 'saas/importacoes/gravardwg/'.$file['id'];?>" class="btn btn-primary btn-block">Importar</a>
+
+                                    </div>
                                     <?php
                                         }
                                     ?>
@@ -44,34 +39,7 @@
                 <!-- /.panel-body -->
             </div>
         </div>
-          <?php
-                if(!empty($this->session->flashdata('danger'))){
-                ?>
-        <div class="col-lg-4">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    Erro ao gravar!
-                </div>
-                <div class="panel-body">
-                    <p><?= $this->session->flashdata('danger'); ?></p>
-                </div>
-            </div>
-            </div>
-            <?php
-                }elseif(!empty($this->session->flashdata('success'))){
-            ?><div class="col-lg-4">
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                    Sucesso!
-                </div>
-                <div class="panel-body">
-                    <p><?= $this->session->flashdata('success'); ?></p>
-                </div>
-            </div>
-            </div>
-            <?php
-                }
-            ?>
+         
     </div> 
   <a style="float:left" href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
     <!-- /.row -->

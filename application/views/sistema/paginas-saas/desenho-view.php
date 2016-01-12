@@ -47,7 +47,7 @@
                 <tr>
                     <td><?= $des ?></td>
                     <td> - </td>
-                    <td><?= $Conjuntos[$des][0]['DES_PEZ'] ?></td>
+                    <td><?= $Conjuntos[$des][0]['DES_PEZ'] ?? '-' ?></td>
                     <td> - </td>
                     <td> - </td>
                     <td> <?= $Pesos[$des] ?> </td>

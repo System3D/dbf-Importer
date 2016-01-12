@@ -1,6 +1,18 @@
 $(document).ready(function(){
 
     var Basepath = "http://localhost/s4w";
+var xix = 0;
+    $('.editedi').click(function(e) {
+        e.preventDefault();
+       
+        if(xix%2 == 0){
+           $(this).closest('#editorino').find(".dis").removeClass('hidden');
+            xix++;
+        }else{
+            $(this).closest('#editorino').find(".dis").addClass('hidden');
+            xix++;   
+        } 
+    });
 
     // Inicio das regras de gravação de etapas do saas
     jQuery("#form-etapa").submit(function(e){

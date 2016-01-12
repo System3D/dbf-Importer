@@ -128,6 +128,17 @@ class Importacao_model extends CI_Model{
 
     }
 
+    public function getFileName($id){
+        $ctable   = 'dbfdata';
+        $ctableID = 'dbfID';
+        $this->db->select('*')
+            ->from($ctable)
+            ->where($ctableID, $id);
+        $query = $this->db->get();
+        $all = $query->result();
+        return $all[0]->fileName;
+    }
+
        public function get_dbfNames(){
         $ctable   = 'dbfdata';
         $ctableID = 'dbfID';
@@ -136,12 +147,16 @@ class Importacao_model extends CI_Model{
         $query = $this->db->get();
         $all = $query->result();
         $check = array();
+        $x = 0;
         foreach($all as $todos){
             if(!in_array($todos->fileName, $check)){
                 $check[] = $todos->fileName;
+                $retorn[$x]['name'] = $todos->fileName;
+                $retorn[$x]['id'] = $todos->dbfID;
+                $x++;
             }
         }
-        return $check;
+        return $retorn;
 
     }
 

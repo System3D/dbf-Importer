@@ -78,13 +78,82 @@ class Importacoes extends MY_Controller {
         $this->render($data, $pagina);
     } 
 
-    public function gravardwg(){
-        if(empty($this->input->post('filename'))){
-            redirect("saas/importacoes/dwg", 'refresh');
+    public function editardwg(){
+        
+        $file = $_FILES['dwg'];
+        $dwgID = $this->input->post('dwgID');
+        $dbfID = $this->input->post('dbfID');
+        $dgw = $this->fil2->get_by_id($dwgID);
+        $verify = $this->fil2->get_by_field('fileName', $file['name']);
+       if($verify){
+            $this->session->set_flashdata('danger', "O Desenho <strong>". substr($dgw->fileName,0,-4)."</strong> ja esta cadastrado!");
+            redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
+       }else{
+            $log = 'Edicão de desenho DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
+            $this->logs->gravar($log);
+            $_UP['tamanho'] = 1024 * 1024 * 10; 
+            $_UP['extensoes'] = array('dwg', 'DWG');
+            list($fileName, $extensao) = explode('.', $file['name']);
+            $extensao = strtolower($extensao);
+
+             if (array_search($extensao, $_UP['extensoes']) === false) {
+              $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo com a seguinte extensão: dwg(.dwg).";
+                $this->session->set_flashdata('danger', $data['erro']);
+                redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
+            }
+
+            if ($_UP['tamanho'] < $file['size']){
+                $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo com no maximo 10mb!";
+                $this->session->set_flashdata('danger', $data['erro']);
+                 redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
+            }
+
+            $Path = explode('/',$dgw->path);
+            array_pop($Path);
+            $Path = implode('/',$Path);
+            $Path = $Path.'/';
+            $nome_final = $this->Name($fileName).'.'.$extensao;
+
+            if (!move_uploaded_file($file['tmp_name'], $Path . $nome_final)) {
+                    $data['erro'] = 'Erro ao persistir na pasta';
+                    $this->session->set_flashdata('danger', $data['erro']);
+                     redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
+                } else {
+                unlink($dgw->path);
+                $dwgData = array('fileName' => $file['name'], 
+                                 'dbfName' => $dgw->dbfName, 
+                                 'path' => $Path . $nome_final
+                                 );
+                $veryf = $this->fil2->update($dwgID, $dwgData);
+                $this->session->set_flashdata('success', "Desenho <strong>". $nome_final ."</strong> Atualizado com sucesso!");
+                redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
+            } 
+       }
+    }
+
+    public function excluirdwg($ids){
+        list($idDWG, $idDBF) = explode('and', $ids);
+        $dgw = $this->fil2->get_by_id($idDWG);
+        if(!is_dir($dgw->path) && is_file($dgw->path)){
+           if(unlink($dgw->path)){
+                $dgw = $this->fil2->delete($idDWG);
+                $this->session->set_flashdata('success', "Desenho <strong>". substr($dgw->fileName,0,-4) ."</strong> removido com sucesso!");
+                redirect("saas/importacoes/gravardwg/".$idDBF, 'refresh');
+            }else{
+                $this->session->set_flashdata('danger', "Erro ao Remover Desenho <strong>". substr($dgw->fileName,0,-4)."</strong>");
+                redirect("saas/importacoes/gravardwg/".$idDBF, 'refresh');
+            }
         }
-        $file = $this->input->post('filename');
+    }
+
+    public function gravardwg($fileID){
+        
+        $file = $this->import->getFileName($fileID);
+        $data['IDfil'] = $fileID;
         $data['titulo'] = 'Steel4Web - Administrador';
-    //    $data['check'] =  $this->checkfiles($file);
+        $check =  $this->checkfiles($file);
+        $data['status'] =  $this->statusCheck($check);
+        $data['check'] = $this->checkHandler($check, $data['status']);
         $data['dados'] = $this->import->get_conjuntos($file);
         $data['files'] = $this->get_dwgs($file);
         $data['dbfFile'] = $file;
@@ -94,20 +163,84 @@ class Importacoes extends MY_Controller {
     }
 
      private function checkfiles($file){
+        $cont = 0;
+        $nont = 0;
+        $sobra = array();
+        $missing = array();
+        $in_system = array();
         $check = array();
         $fil = explode('/', $file);
         $fil=end($fil);
         $files = $this->fil2->get_by_field('dbfName', $fil, $limit = null);
-      //  dbug($files);
         $conjuntos = $this->import->get_conjuntos($file);
         foreach($conjuntos as $conj){
-            foreach($files as $fill){
-                if($conj->FLG_DWG == substr($files->fileName,0,-4)){
-                    $check[] = $conj->FLG_DWG;
-                }
+            if(!in_array($conj->FLG_DWG, $check)){
+                $check[] = $conj->FLG_DWG;
             }
         }
-        return $files;
+        foreach($files as $fil){
+            $in_system[] = substr($fil->fileName,0,-4);
+        }
+        for($x=0;$x<count($in_system);$x++){
+            if(in_array($in_system[$x], $check)){
+                $cont++;
+            }else{
+                $sobra[] =  $in_system[$x];
+            }
+        }
+        if($cont == count($check) && empty($sobra[0])){
+            return 1;
+        }else{
+            if(count($in_system) > 0){
+                for($x=0;$x<count($check);$x++){
+                   if(in_array($check[$x], $in_system)){
+                        $nont++;
+                    }else{
+                        $missing[] =  $check[$x];
+                    }
+            }
+            }else{
+                $check[count($check) + 1] = "missing";
+                return $check;
+            }
+            if(count($sobra) > 0 && count($missing) == 0){
+              $sobra[] = "sobra";
+              return $sobra;
+            }elseif(count($sobra) == 0 && count($missing) > 0){
+                $missing[count($missing) + 1] = "missing";
+                return $missing;
+            }else{
+                $retorno = implode('&d&', $missing);
+                $retorno .= "&b&";
+                $retorno  .= implode('&d&', $sobra);
+                return $retorno;
+            }
+        } 
+    }
+
+    private function statusCheck($check){
+        if($check == 1){
+            return 1;
+        }elseif(is_array($check)){
+            if(end($check) == "sobra"){
+                return 2;
+            }elseif(end($check) == "missing"){
+                return 3;
+            }
+        }else{
+            return 4;
+        }
+    }
+    
+    private function checkHandler($check, $status){
+        if($status == 1){
+            return 1;
+        }elseif($status == 2 || $status == 3){
+            array_pop($check);
+            return $check;
+        }else{
+            return $check;
+        }
     }
 
     private function get_dwgs($file){
@@ -266,6 +399,8 @@ public function cadastrardwg(){
     }
 
     $fullPath = $this->input->post('fileName');
+    $IDfil = $this->input->post('fileID');
+    $togo = "gravardwg/".$IDfil;
     $expath = explode('/', $fullPath);
     $dbfName = end($expath);
     $dbfcount = -1 * strlen($dbfName);
@@ -289,13 +424,13 @@ public function cadastrardwg(){
         if (array_search($extensao, $_UP['extensoes']) === false) {
           $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo com a seguinte extensão: dwg(.dwg).";
             $this->session->set_flashdata('danger', $data['erro']);
-            redirect("saas/importacoes/dwg", 'refresh');
+            redirect("saas/importacoes/".$togo, 'refresh');
         }
 
         if ($_UP['tamanho'] < $file['size'][$d]){
             $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo com no maximo 10mb!";
             $this->session->set_flashdata('danger', $data['erro']);
-            redirect("saas/importacoes/dwg", 'refresh');
+            redirect("saas/importacoes/".$togo, 'refresh');
         }
 
         $nome_final = $this->Name($fileName).'.'.$extensao;
@@ -304,7 +439,7 @@ public function cadastrardwg(){
                 if (!move_uploaded_file($file['tmp_name'][$d], $Path . $nome_final)) {
                     $data['erro'] = 'Erro ao persistir na pasta';
                     $this->session->set_flashdata('danger', $data['erro']);
-                     redirect("saas/importacoes/dwg", 'refresh');
+                     redirect("saas/importacoes/".$togo, 'refresh');
                 } else {
                 $dwgData = array('fileName' => $file['name'][$d], 
                                  'dbfName' => $dbfName, 
@@ -316,13 +451,13 @@ public function cadastrardwg(){
                     unset($arquivoParaDeletar);
                     $data['erro'] = 'Erro ao Cadastrar Dados no Banco.';
                     $this->session->set_flashdata('danger', $data['erro']);
-                    redirect("saas/importacoes/dwg", 'refresh');
+                    redirect("saas/importacoes/".$togo, 'refresh');
                 }
             }
         }
             $data['success'] = 'Importação realizada com sucesso!';
             $this->session->set_flashdata('success', $data['success']);
-            redirect("saas/importacoes/dwg", 'refresh');
+           redirect("saas/importacoes/".$togo, 'refresh');
     }
 
 

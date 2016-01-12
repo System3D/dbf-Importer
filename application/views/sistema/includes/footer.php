@@ -1,8 +1,6 @@
-    <div class="row">
+    <div class="row" >
         <div class="col-lg-12"><br/ ><br/ >
-            <p class="text-center">
-                <a href="<?=base_url('saas/admin')?>"><img style="width:40%"src="<?=base_url('assets/template/img/logo-Steel4web-600.png');?>" alt="Stell4Web" title="Stell4Web"></a>
-            </p>
+                <a href="<?=base_url('saas/admin')?>"><img style="width:40%;margin-left:30%;margin-bottom:15px"src="<?=base_url('assets/template/img/logo-Steel4web-600.png');?>" alt="Stell4Web" title="Stell4Web"></a>
         </div>
     </div>
  </div>
