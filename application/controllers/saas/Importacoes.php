@@ -21,12 +21,7 @@ class Importacoes extends MY_Controller {
         $this->load->model('template/Template_model', 'fil2');
         $this->fil2->setTable('dwgdata','dwgID');
 
-        // $sections = array(
-        //              'config'  => TRUE,
-        //              'queries' => TRUE
-        //              );
-        // $this->output->set_profiler_sections($sections);
-        // $this->output->enable_profiler(TRUE);
+
     }
 
    public function listar($subEtapaID)
@@ -89,8 +84,6 @@ class Importacoes extends MY_Controller {
             $this->session->set_flashdata('danger', "O Desenho <strong>". substr($dgw->fileName,0,-4)."</strong> ja esta cadastrado!");
             redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
        }else{
-            $log = 'Edicão de desenho DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
-            $this->logs->gravar($log);
             $_UP['tamanho'] = 1024 * 1024 * 10; 
             $_UP['extensoes'] = array('dwg', 'DWG');
             list($fileName, $extensao) = explode('.', $file['name']);
@@ -112,7 +105,7 @@ class Importacoes extends MY_Controller {
             array_pop($Path);
             $Path = implode('/',$Path);
             $Path = $Path.'/';
-            $nome_final = $this->Name($fileName).'.'.$extensao;
+            $nome_final = $fileName.'.'.$extensao;
 
             if (!move_uploaded_file($file['tmp_name'], $Path . $nome_final)) {
                     $data['erro'] = 'Erro ao persistir na pasta';
@@ -120,12 +113,14 @@ class Importacoes extends MY_Controller {
                      redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
                 } else {
                 unlink($dgw->path);
-                $dwgData = array('fileName' => $file['name'], 
+                $dwgData = array('fileName' => $nome_final, 
                                  'dbfName' => $dgw->dbfName, 
                                  'path' => $Path . $nome_final
                                  );
                 $veryf = $this->fil2->update($dwgID, $dwgData);
-                $this->session->set_flashdata('success', "Desenho <strong>". $nome_final ."</strong> Atualizado com sucesso!");
+                 $log = 'Edicão de desenho DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
+                $this->logs->gravar($log);
+                $this->session->set_flashdata('success', "Desenho <strong>". $dgw->fileName ."</strong> foi substituido por <strong>". $nome_final ."</strong> com sucesso.");
                 redirect("saas/importacoes/gravardwg/".$dbfID, 'refresh');
             } 
        }
@@ -136,7 +131,9 @@ class Importacoes extends MY_Controller {
         $dgw = $this->fil2->get_by_id($idDWG);
         if(!is_dir($dgw->path) && is_file($dgw->path)){
            if(unlink($dgw->path)){
-                $dgw = $this->fil2->delete($idDWG);
+                $dgg = $this->fil2->delete($idDWG);
+                 $log = 'Exclusão de desenho DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
+                $this->logs->gravar($log);
                 $this->session->set_flashdata('success', "Desenho <strong>". substr($dgw->fileName,0,-4) ."</strong> removido com sucesso!");
                 redirect("saas/importacoes/gravardwg/".$idDBF, 'refresh');
             }else{
@@ -251,8 +248,7 @@ class Importacoes extends MY_Controller {
     }
 
     public function gravardbf(){
-        $log = 'Importação de banco DBF - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
-        $this->logs->gravar($log);
+        
 
         $Path =  "C:/xampp/htdocs/s4w/arquivos/";
         if(!empty($this->input->post('observacoes'))){
@@ -335,6 +331,7 @@ class Importacoes extends MY_Controller {
                          redirect("saas/importacoes/dbf", 'refresh');
                     } else {
                     $verify = $this->savedbf($fullPath,$observacoes);
+
                     if (!$verify) {
                         $arquivoParaDeletar = $fullPath;
                         unset($arquivoParaDeletar);
@@ -342,6 +339,8 @@ class Importacoes extends MY_Controller {
                         $this->session->set_flashdata('danger', $data['erro']);
                         redirect("saas/importacoes/dbf", 'refresh');
                     }else{
+                        $log = 'Importação de banco DBF - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
+                        $this->logs->gravar($log);
                         $data['success'] = 'Importação realizada com sucesso!';
                         $this->session->set_flashdata('success', $data['success']);
                         redirect("saas/importacoes/dbf", 'refresh');
@@ -389,14 +388,11 @@ public function cadastrardwg(){
 
     $file = $_FILES['dwg'];
 
-    $log = 'Importação de desenhos DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
-    $this->logs->gravar($log);
+   
 
-    if(!empty($this->input->post('observacoes'))){
-        $observacoes = $this->input->post('observacoes');
-    }else{
-        $observacoes = null;
-    }
+    
+    $observacoes = $this->input->post('observacoes');
+
 
     $fullPath = $this->input->post('fileName');
     $IDfil = $this->input->post('fileID');
@@ -433,7 +429,7 @@ public function cadastrardwg(){
             redirect("saas/importacoes/".$togo, 'refresh');
         }
 
-        $nome_final = $this->Name($fileName).'.'.$extensao;
+        $nome_final = $fileName.'.'.$extensao;
         $fullPath = $Path.$nome_final;
 
                 if (!move_uploaded_file($file['tmp_name'][$d], $Path . $nome_final)) {
@@ -441,11 +437,14 @@ public function cadastrardwg(){
                     $this->session->set_flashdata('danger', $data['erro']);
                      redirect("saas/importacoes/".$togo, 'refresh');
                 } else {
-                $dwgData = array('fileName' => $file['name'][$d], 
+                $dwgData = array('fileName' => $nome_final, 
                                  'dbfName' => $dbfName, 
-                                 'path' => $fullPath
+                                 'path' => $fullPath,
+                                 'observacoes' =>  $observacoes
                                  );
                 $verify = $this->fil2->insert($dwgData);
+                 $log = 'Importação de desenhos DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address();
+                 $this->logs->gravar($log);
                 if (!$verify) {
                     $arquivoParaDeletar = $fullPath;
                     unset($arquivoParaDeletar);

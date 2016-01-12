@@ -1,18 +1,18 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Dashboard Saas</h3>
+            <h3 class="page-header">Dashboard</h3>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-3 col-md-6">
-            <div class="panel panel-green">
+            <div class="panel panel-main">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-users fa-5x"></i>
+                            <i class="fa fa-gamepad fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">5</div>
@@ -33,11 +33,11 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
+            <div class="panel panel-main">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-home fa-5x"></i>
+                            <i class="fa fa-trophy fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">5</div>
@@ -57,11 +57,11 @@
             </div>
         </div>
          <div class="col-lg-3 col-md-6">
-            <div class="panel panel-red">
+            <div class="panel panel-main">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-home fa-5x"></i>
+                            <i class="fa fa-magnet fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">5</div>
@@ -82,11 +82,11 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
+            <div class="panel panel-main">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-support fa-5x"></i>
+                            <i class="fa fa-legal fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">5</div>

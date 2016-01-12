@@ -18,8 +18,8 @@
    
         <!-- CUSTOM STYLES-->
     <link href="<?=base_url();?>assets/template/css/custom.css" rel="stylesheet" />
-     <!-- GOOGLE FONTS-->
-   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+     <!-- GOOGLE FONTS
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />-->
      <!-- TABLE STYLES-->
     <link href="<?=base_url();?>assets/template/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 

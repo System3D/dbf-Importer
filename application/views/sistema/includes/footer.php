@@ -20,7 +20,6 @@
         });
     </script>
          <!-- CUSTOM SCRIPTS -->
-    <script src="assets/js/custom.js"></script>
     <script src="<?=base_url();?>assets/template/dist/js/jquery.mask.min.js"></script>
     <script src="<?=base_url();?>assets/template/dist/js/funcoes.js"></script>
     <script src="<?=base_url();?>assets/template/js/custom.js"></script>

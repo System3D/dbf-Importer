@@ -2243,6 +2243,58 @@ fieldset[disabled] .btn-warning.active {
   color: #f0ad4e;
   background-color: #fff;
 }
+
+
+
+
+.btn-logout {
+  color: #fff;
+  background-color: #202020;
+  border-color: #1B1B1B;
+}
+.btn-logout:hover,
+.btn-logout:focus,
+.btn-logout:active,
+.btn-logout.active,
+.open .dropdown-toggle.btn-logout {
+  color: #fff;
+  background-color: black;
+  border-color: #0B0B0B;
+}
+.btn-logout:active,
+.btn-logout.active,
+.open .dropdown-toggle.btn-logout {
+  background-image: none;
+}
+.btn-logout.disabled,
+.btn-logout[disabled],
+fieldset[disabled] .btn-logout,
+.btn-logout.disabled:hover,
+.btn-logout[disabled]:hover,
+fieldset[disabled] .btn-logout:hover,
+.btn-logout.disabled:focus,
+.btn-logout[disabled]:focus,
+fieldset[disabled] .btn-logout:focus,
+.btn-logout.disabled:active,
+.btn-logout[disabled]:active,
+fieldset[disabled] .btn-logout:active,
+.btn-logout.disabled.active,
+.btn-logout[disabled].active,
+fieldset[disabled] .btn-logout.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.btn-logout .badge {
+  color: #d9534f;
+  background-color: #fff;
+}
+
+
+
+
+
+
+
 .btn-danger {
   color: #fff;
   background-color: #d9534f;
@@ -4964,6 +5016,37 @@ a.list-group-item-danger.active:focus {
 .panel-default > .panel-footer + .panel-collapse .panel-body {
   border-bottom-color: #ddd;
 }
+
+
+
+
+.panel-main {
+  border-color: #272727;
+}
+.panel-main > a{
+  color:#323232;
+}
+.panel-main > a:hover{
+  color:black;
+}
+.panel-main > .panel-heading {
+  color: #fff;
+  background-color: #393939;
+  border-color: #474747;
+}
+.panel-main > .panel-heading + .panel-collapse .panel-body {
+  border-top-color: #272727;
+}
+.panel-main > .panel-footer + .panel-collapse .panel-body {
+  border-bottom-color: #272727;
+}
+
+
+
+
+
+
+
 .panel-primary {
   border-color: #428bca;
 }

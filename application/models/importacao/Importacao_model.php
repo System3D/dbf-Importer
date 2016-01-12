@@ -32,6 +32,14 @@ class Importacao_model extends CI_Model{
         if (!file_exists($Path . $Folder) && !is_dir($Path . $Folder)):
             mkdir($Path . $Folder, 0777);
         endif;
+        $html = "<html><head><title>403 Forbidden</title></head><body><p>Directory access is forbidden.</p></body></html>";
+
+            $arquivoIndex = $Path . $Folder . "/index.html";
+            
+
+            if(!file_exists($arquivoIndex)):
+                file_put_contents($arquivoIndex, $html);
+            endif;
     }
 
     public function get_by_field($field, $value, $limit = null)

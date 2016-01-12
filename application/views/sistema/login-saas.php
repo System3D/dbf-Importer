@@ -61,7 +61,7 @@
                                     </label>
                                 </div> -->
                                 <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" value="Login" class="btn btn-lg btn-info btn-block">
+                                <input type="submit" value="Login" class="btn btn-lg btn-logout btn-block">
                             </fieldset>
                         </form>
                     </div>
