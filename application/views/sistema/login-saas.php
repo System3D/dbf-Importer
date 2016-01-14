@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Steel4Web - Dbf/Dwg Importer</title>
+    <title>Gedsteel - Login</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="<?=base_url();?>assets/template/css/bootstrap.css" rel="stylesheet" />
@@ -44,13 +44,13 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Steel4Web - Dbf/Dwg Importer</h3>
+                        <h3 class="panel-title">Gedsteel - Login</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form" action="<?=base_url('login/acessarSaas');?>" method="post">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="E-mail/Codigo de Obra" name="email" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">

@@ -4,8 +4,22 @@ tr.group:hover{
 }
 
 .group td{
+	display:none !important;
+	font-size:18px;
 	background-color: #454545 !important;
 	color: #fff;
+	margin-bottom: none !important;
+	border: none !important;
+}
+
+.secRow td{
+	background-color: #454545 !important;
+	color: #fff;
+}
+
+tr.secRow,
+tr.secRow:hover{
+	background-color: #454545 !important;
 }
 
 

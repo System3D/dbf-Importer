@@ -60,6 +60,15 @@ class Conjuntos extends MY_Controller {
         $this->render($data, $pagina);
     }
 
+    public function editTable(){
+        $id = $this->input->post('id');
+        $data = $this->input->post('data');
+        $key = $this->input->post('key');
+        dbugnd($id);
+        dbugnd($data);
+        dbug($key);
+    }
+
     private function savedbf($dbfname) {
         $fdbf = fopen($dbfname,'r'); 
         $fields = array(); 
@@ -293,24 +302,28 @@ class Conjuntos extends MY_Controller {
         $pdf->Cell($w[$i],6,$content[$i],1,0,'C');
         $pdf->Ln(20);
          $pdf->SetFont('Arial','',14);
-        $header = array('Desenho', 'Conjunto', 'Tipologia', 'Qtd.', 'Kg(unid)', 'Kg(total)');
-        $total = array('PESO TOTAL', '-', '-', '-', '-', $Pesos['total']);
+        $header = array('Desenho', 'Tipologia', 'Peso Total(KG)');
+        $total = array('TOTAL GRD', '-', $Pesos['total']);
         $data = array('Desenho', 'Conjunto', 'Tipologia', 'Quantidade', 'Peso Unid.(Kg)', 'Peso Total(Kg)');
+        $w2 = array(50, 80, 60);
         $pdf->SetLineWidth(.3);
         for($i=0;$i<count($header);$i++)
-        $pdf->Cell($w[$i],8,$header[$i],1,0,'C');
+        $pdf->Cell($w2[$i],8,$header[$i],1,0,'C');
         $pdf->Ln();
         $pdf->SetFont('Arial','B',12);
         for($i=0;$i<count($total);$i++)
-         $pdf->Cell($w[$i],6,$total[$i],'LRB',0,'C');
+         $pdf->Cell($w2[$i],6,$total[$i],'LRB',0,'C');
          $pdf->Ln();
         foreach($Desenhos as $des){
             $pdf->SetFont('Arial','B',10);
-            $dese = array($des, '-', $Conjuntos[$des][0]['DES_PEZ'], '-', '-',  $Pesos[$des]);
+
+          //  $pdf->SetTextColor(46,46,135);
+            $dese = array($des, $Conjuntos[$des][0]['DES_PEZ'],$Pesos[$des]);
             for($i=0;$i<count($dese);$i++)
-                $pdf->Cell($w[$i],6,$dese[$i],'LRB',0,'C');
+                $pdf->Cell($w2[$i],6,$dese[$i],'LRB',0,'C');
                  $pdf->Ln();
-                 $pdf->SetFont('Arial','',10);
+        /*         $pdf->SetFont('Arial','',10);
+                 $pdf->SetTextColor(0,0,0);
             foreach($Conjuntos as $conju){
                 foreach($conju as $conj){
                     if($conj['FLG_DWG'] == $des){
@@ -323,7 +336,7 @@ class Conjuntos extends MY_Controller {
                         $pdf->Ln();
                     }
                 }
-            }
+            } */
         }
         $NamePdf = substr($naome,0,-4);
         $NamePdf = $NamePdf.'.pdf';

@@ -14,6 +14,10 @@
      <!-- DATA TABLE SCRIPTS -->
     <script src="<?=base_url();?>assets/template/js/dataTables/jquery.dataTables.js"></script>
     <script src="<?=base_url();?>assets/template/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="<?=base_url();?>assets/template/js/dataTables.buttons.min.js"></script>
+    <script src="<?=base_url();?>assets/template/js/dataTables.editor.min.js"></script>
+    <script src="<?=base_url();?>assets/template/js/dataTables.select.min.js"></script>
+    <script src="<?=base_url();?>assets/template/js/bootstrap-editable.js"></script>
          <!-- CUSTOM SCRIPTS -->
     <script src="<?=base_url();?>assets/template/dist/js/jquery.mask.min.js"></script>
     <script src="<?=base_url();?>assets/template/dist/js/funcoes.js"></script>

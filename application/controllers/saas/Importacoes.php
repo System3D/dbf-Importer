@@ -51,6 +51,7 @@ class Importacoes extends MY_Controller {
         $this->render($data, $pagina);
     } 
 
+
     public function listar_all()
     {
         $data['titulo'] = 'Steel4Web - Administrador';
@@ -143,6 +144,14 @@ class Importacoes extends MY_Controller {
                 redirect("saas/importacoes/gravardwg/".$idDBF, 'refresh');
             }
         }
+    }
+
+    public function todeletedbf($id){
+        $dbf = $this->fil->get_by_id($id);
+        $folder = explode('/',$dbf->fileName);
+        $dbfName = end($folder);
+        $this->session->set_flashdata('todelete', $dbfName."&xx&".$id);
+        redirect("saas/importacoes/dbf", 'refresh');
     }
 
     public function excluirdbf($id){

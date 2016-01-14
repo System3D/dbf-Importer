@@ -62,7 +62,24 @@
             </div>
             <?php
                 }
-            ?>
+                elseif(!empty($this->session->flashdata('todelete'))){
+                    list($delName, $delID) = explode('&xx&',$this->session->flashdata('todelete'));
+                ?>
+             <div class="panel panel-primary" id="rusure">
+                <div class="panel-heading">
+                    Realmente Deseja deletar o banco <strong><?= $delName ?></strong>?
+                </div>
+                <div class="panel-body">
+                    <p>Saiba que ao deletar um banco DBF todas informações, arquivos e desenhos ligadas a ele serão deletados completamente do sistema. <br />
+                        <br>Continuar? </p>
+                    <div style="text-align:center;font-size:20px;margin-bottom:none;padding-bottom:none">
+                        <a href="<?= base_url()."saas/importacoes/excluirdbf/".$delID ?>" style="color:green">SIM</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="<?= base_url()."saas/importacoes/dbf" ?>" style="color:red">NÃO</a>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
         </div>
         <div class="col-lg-4">
          <div class="panel panel-default">
@@ -78,13 +95,22 @@
                 foreach($files as $fil){
                  $name =    explode('/',$fil['name']);
                  $name = end($name);
+                $path = $fil['name'];
+                $path=explode('/',$path);
+                array_shift($path);
+                array_shift($path);
+                array_shift($path);
+                array_shift($path);
+                $path = base_url(implode('/',$path));
 
             ?>
             <div class="row">
              <div class="col-lg-12" id="editorino">
                 <h5 style='font-size:16px'>Nome: <strong><?= $name ?></strong>
                 <div style="float:right;margin-right:15px">
-                <a href="<?= base_url()."saas/importacoes/excluirdbf/".$fil['id'] ?>" onclick="return confirm('Realmente Deseja Excluir? Todos desenhos vinculados a este banco serão excluidos.')" title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
+                <a href="<?= base_url()."saas/importacoes/todeletedbf/".$fil['id'] ?>"  title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
+                &nbsp;
+                <a href="<?= $path ?>" target="_blank" title="Download" style="color:#323232"><i class="fa fa-download fa"></i></a>
                 </div>
                 </h5>
             <?php if(isset($fil['observacao'])){ ?>

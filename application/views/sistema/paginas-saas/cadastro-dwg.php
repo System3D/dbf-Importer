@@ -62,7 +62,7 @@
                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-cloud-upload"></i> Importar</button>
             </form>
         </div>
-        
+
          <?php
             if(!empty($this->session->flashdata('message'))){
                 foreach($this->session->flashdata('message') as $msg){
@@ -116,53 +116,11 @@
             <?php
                 }
             ?> 
-      </div>
-    <div class="col-lg-4">
-             <div class="panel panel-default">
-                <div class="panel-heading">
-                    Desenhos Importados
-                </div>
-                 <div class="panel-body">
-                    <h4>Desenhos de <?= $filname ?></h4>
-                    <br />  
-                            <?php
-                            if(empty($files)){
-                                echo "<h5>Sem Desenhos Cadastrados.</h5>";
-                            }
-                                foreach($files as $fil){
-                            ?>
-                            <div class="row">
-                             <div class="col-lg-12" id="editorino">
-                                <h5 style='font-size:16px'>Nome: <strong><?= $fil->fileName ?></strong>
-                                <div style="float:right;margin-right:15px">
-                                <a href="#" title="Editar" class="editedi"><i class="fa fa-pencil fa"></i></a>
 
-                                &nbsp;
-                                <a href="<?= base_url()."saas/importacoes/excluirdwg/".$fil->dwgID."and".$IDfil ?>" title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
-                                </div>
-                                </h5>
-                                 <?php if(isset($fil->observacoes)){ ?>
-                                <p style='font-size:12px;padding:5px'> <?= $fil->observacoes; ?> </p>
-                                <?php } ?>
-                                <form action="<?= base_url()."saas/importacoes/editardwg" ?>"  role="form" class="hidden dis" method="post" enctype="multipart/form-data">
-                                <input type="file" name="dwg" />
-                                <input type="hidden" name='dwgID' value="<?= $fil->dwgID ?>">
-                                <input type="hidden" name='dbfID' value="<?= $IDfil ?>">
-                                <button type="submit" style="float:right;margin-right:15px;width:10%" class="btn btn-info btn-block">Enviar</button>
-                                </form>
-                              </div>
-                            </div>
-                            <?php
-                                }
-                            ?>   
-                </div>
-                <!-- /.panel-body -->
-        </div>
-
-        <?php
+          <?php
                 if($status == 1){
                 ?>
-            <div class="panel panel-success">
+            <div class="panel panel-success2">
                 <div class="panel-heading">
                     Ok!
                 </div>
@@ -173,7 +131,7 @@
             <?php
                 }elseif($status == 2){
             ?>
-                <div class="panel panel-danger">
+                <div class="panel panel-danger2">
                 <div class="panel-heading">
                     Desenhos não constam no banco DBF!
                 </div>
@@ -193,7 +151,7 @@
              <?php
                 }elseif($status == 3){
             ?>
-                <div class="panel panel-info">
+                <div class="panel panel-info2">
                 <div class="panel-heading">
                     Desenhos Não Cadastrados!
                 </div>
@@ -216,7 +174,7 @@
                 $missing = explode('&d&', $missing);
                 $sobra = explode('&d&', $sobra);
             ?>
-                <div class="panel panel-danger">
+                <div class="panel panel-danger2">
                 <div class="panel-heading">
                     Desenhos não constam no banco DBF!
                 </div>
@@ -233,7 +191,7 @@
                     </p>
                 </div>
             </div>
-             <div class="panel panel-info">
+             <div class="panel panel-info2">
                 <div class="panel-heading">
                     Desenhos Não Cadastrados!
                 </div>
@@ -253,6 +211,58 @@
             <?php
                 }
             ?>
+        
+        
+      </div>
+    <div class="col-lg-4">
+             <div class="panel panel-default">
+                <div class="panel-heading">
+                    Desenhos Importados
+                </div>
+                 <div class="panel-body">
+                    <h4>Desenhos de <?= $filname ?></h4>
+                    <br />  
+                            <?php
+                            if(empty($files)){
+                                echo "<h5>Sem Desenhos Cadastrados.</h5>";
+                            }
+                                foreach($files as $fil){
+                                    $path = $fil->path;
+                                    $path=explode('/',$path);
+                                    array_shift($path);
+                                    array_shift($path);
+                                    array_shift($path);
+                                    array_shift($path);
+                                    $path = base_url(implode('/',$path));
+                            ?>
+                            <div class="row">
+                             <div class="col-lg-12" id="editorino">
+                                <h5 style='font-size:16px'>Nome: <strong><?= $fil->fileName ?></strong>
+                                <div style="float:right;margin-right:15px">
+                                <a href="#" title="Editar" class="editedi"><i class="fa fa-pencil fa"></i></a>
+                                &nbsp;
+                                <a href="<?= base_url()."saas/importacoes/excluirdwg/".$fil->dwgID."and".$IDfil ?>" title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
+                                &nbsp;
+                                <a href="<?= $path ?>" target="_blank" title="Download" style="color:#323232"><i class="fa fa-download fa"></i></a>
+                                </div>
+                                </h5>
+                                 <?php if(isset($fil->observacoes)){ ?>
+                                <p style='font-size:12px;padding:5px'> <?= $fil->observacoes; ?> </p>
+                                <?php } ?>
+                                <form action="<?= base_url()."saas/importacoes/editardwg" ?>"  role="form" class="hidden dis" method="post" enctype="multipart/form-data">
+                                <input type="file" name="dwg" />
+                                <input type="hidden" name='dwgID' value="<?= $fil->dwgID ?>">
+                                <input type="hidden" name='dbfID' value="<?= $IDfil ?>">
+                                <button type="submit" style="float:right;margin-right:15px;width:10%" class="btn btn-info btn-block">Enviar</button>
+                                </form>
+                              </div>
+                            </div>
+                            <?php
+                                }
+                            ?>   
+                </div>
+                <!-- /.panel-body -->
+        </div>
 
     </div>
 </div>

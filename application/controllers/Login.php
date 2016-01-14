@@ -26,7 +26,7 @@ class Login extends CI_Controller {
         $this->load->view('sistema/login-admin');
     }
 
-    public function acessarSaas()
+   public function acessarSaas()
     {
       if($_POST){
             /* PEGAR DADOS DO FORM */
@@ -61,35 +61,35 @@ class Login extends CI_Controller {
                         break;
                     case 2:
                         # Planejamento
-                        redirect('saas/planejamento');
+                        redirect('saas/admin');
                         break;
                     case 3:
                         # Engenharia
-                        redirect('saas/engenharia');
+                        redirect('saas/admin');
                         break;
                     case 4:
                         # PCP
-                        redirect('saas/pcp');
+                        redirect('saas/admin');
                         break;
                     case 5:
                         # Apontador
-                        redirect('saas/apontador');
+                        redirect('saas/admin');
                         break;
                     case 6:
                         # Montagem
-                        redirect('saas/montagem');
+                        redirect('saas/admin');
                         break;
                     case 7:
                         # Qualidade
-                        redirect('saas/qualidade');
+                        redirect('saas/admin');
                         break;
                     case 8:
                         # Almoxarifado
-                        redirect('saas/almoxarifado');
+                        redirect('saas/admin');
                         break;
                     case 9:
                         # Gestor
-                        redirect('saas/gestor');
+                        redirect('saas/admin');
                         break;
                     default:
                         redirect(base_url() . 'saas/login', 'refresh');

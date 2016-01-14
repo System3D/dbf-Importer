@@ -14,7 +14,7 @@ class Usuarios extends MY_Controller {
 
     public function listar()
     {
-        $data['titulo'] = 'Steel4Web - Listar Usuários';
+        $data['titulo'] = 'GedSteel - Listar Usuários';
         $pagina = 'usuarios-listar';
         $data['locatariosUsuarios'] = $this->locUser->get_all();
         $this->render($data, $pagina);
@@ -22,14 +22,14 @@ class Usuarios extends MY_Controller {
 
     public function cadastrar()
     {
-        $data['titulo'] = 'Steel4Web - Cadastrar Usuário';
+        $data['titulo'] = 'GedSteel - Cadastrar Usuário';
         $pagina = 'usuario-cadastro';
         $this->render($data, $pagina);
     }
 
     public function editar($id)
     {
-        $data['titulo'] = 'Steel4Web - Editar Usuário';
+        $data['titulo'] = 'GedSteel - Editar Usuário';
         $pagina = 'usuario-cadastro';
         $data['usuarioLocatarioID'] = strip_tags(trim($id));
         $data['usuarioLocatario'] = $this->locUser->get_by_id($data['usuarioLocatarioID']);
@@ -42,7 +42,7 @@ class Usuarios extends MY_Controller {
 
     public function ver($id)
     {
-        $data['titulo'] = 'Steel4Web - Perfil Usuário';
+        $data['titulo'] = 'GedSteel - Perfil Usuário';
         $pagina = 'usuario-cadastro';
         $data['usuarioLocatarioID'] = strip_tags(trim($id));
         $data['usuarioLocatario'] = $this->locUser->get_by_id($data['usuarioLocatarioID']);

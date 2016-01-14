@@ -27,10 +27,10 @@
         <table class="table table-striped table-bordered  dt-responsive nowrap table-hover droptable" cellspacing="0" width="100%" id="dataTables">
         <thead>
             <tr>
-                
-                <th>Conjunto(Marca)</th>
-                <th>Tipologia</th>
                 <th>Desenho</th>
+                <th>Conjunto(Marca)</th>
+                <th>Desenho</th>
+                <th>Tipologia</th>
                 <th>Quantidade</th>
                 <th>Peso Unidade(Kg)</th>
                 <th>Peso Total(Kg)</th>
@@ -38,25 +38,28 @@
         </thead>
         <tbody>
 
-            <tr>
+            <tr style="font-size:18px">
                 <td>PESO TOTAL</td>
                 <td>  </td>
                 <td>  TOTAL GRD  </td>
                 <td>  </td>
                 <td>  </td>
-                <td> <?= $Pesos['total'] ?> </td>
+                <td>  </td>
+                <td>  <?= number_format($Pesos['total'], 2, ',', '.'); ?> </td>
             </tr>
              <?php 
+             $xcx = 1;
             foreach ($Desenhos as $des) { 
                 ?>
-                <tr>
-                    
-                    <td>PESO TOTAL </td>
-                    <td><?php // $Conjuntos[$des][0]['DES_PEZ'] ?? '-' ?> - </td>
-                    <td>Desenho - <?= $des ?></td>
+                <tr class="secRow">
+
+                    <td><?= $des ?></td>
+                    <td> - </td>
+                    <td><?= $des ?></td>
+                    <td><?= $Conjuntos[$des][0]['DES_PEZ'] ?? '-' ?></td>
                     <td> - </td>
                     <td> - </td>
-                    <td> <?= $Pesos[$des] ?> </td>
+                    <td><?= number_format($Pesos[$des], 2, ',', '.'); ?></td>
                 </tr>
                 <?php  
                 foreach($Conjuntos as $conj){
@@ -64,15 +67,15 @@
                      if($con['FLG_DWG'] == $des){
                     ?>
                      <tr>
-                    
+                    <td><?= $con['FLG_DWG'] ?></td>
                     <td><?= $con['MAR_PEZ'] ?></td>
-                    <td><?= $con['DES_PEZ'] ?></td>
-                    <td>Desenho - <?= $con['FLG_DWG'] ?></td>
+                    <td><?= $con['FLG_DWG'] ?></td>
+                    <td><span class="xedit" key="DES_PEZ" id="<?= $xcx ?>"><?= $con['DES_PEZ'] ?></span></td>
                     <td><?= $con['QTA_PEZ'] ?></td>
-                    <td><?= $con['PESO_QTA'] ?></td>
-                    <td><?= $con['peso'] ?></td>
+                    <td><?= number_format($con['PESO_QTA'], 2, ',', '.');  ?></td>
+                    <td><?= number_format($con['peso'], 2, ',', '.'); ?></td>
                      </tr>
-            <?php   
+            <?php   $xcx++;
                     }
                   }
                 }
@@ -90,7 +93,7 @@
                 </div>
                 <?php } ?>
             </div>
-            <!-- /.panel -->
+
 
         
         </div>

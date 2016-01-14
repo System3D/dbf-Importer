@@ -210,30 +210,21 @@ var xix = 0;
         var codigo       = $("#codigo").val();
         var nome         = $("#nome").val();
         var descricao    = $("#descricao").val();
-        var cidade       = $("#cidade").val();
-        var endereco     = $("#endereco").val();
-        var cep          = $("#cep").val();
-        var clienteID    = $("#clienteID").val();
-        var construtora  = $("#construtora").val();
-        var gerenciadora = $("#gerenciadora").val();
-        var calculista   = $("#calculista").val();
-        var detalhamento = $("#detalhamento").val();
-        var montagem     = $("#montagem").val();
 
-        if (nome != '' && cidade != '' && endereco != '' && clienteID != '') {
+        if (nome != '' && codigo != '') {
+            $('#tipoSuccess').addClass('hidden');
             $('#tipoError2').addClass('hidden');
             $('#tipoError').addClass('hidden');
-            $('#tipoSuccess').addClass('hidden');
             $('#tipoLoading').removeClass('hidden');
             jQuery.ajax({
                 type: "POST",
-                data: {codigo:codigo, nome:nome, descricao:descricao, cidade:cidade, endereco:endereco, cep:cep, clienteID:clienteID, construtora:construtora, gerenciadora:gerenciadora, calculista:calculista, detalhamento:detalhamento, montagem:montagem},
+                data: {codigo:codigo, nome:nome, descricao:descricao},
                 url: Basepath + "/saas/obras/gravar",
                 dataType: "html",
                 success: function(result){
                     if (result.substring(0,7) == 'sucesso') {
-                        $('#tipoLoading').addClass('hidden');
                         $('#tipoSuccess').removeClass('hidden');
+                        $('#tipoLoading').addClass('hidden');
                         $('#tipoError').addClass('hidden');
                         $('#tipoError2').addClass('hidden');
                         $("#codigo").val('');
@@ -242,15 +233,15 @@ var xix = 0;
                         $("#endereco").val('');
                         $("#cep").val('');
                     } else {
+                        $('#tipoSuccess').addClass('hidden');
                         $('#tipoLoading').addClass('hidden');
                         $('#tipoError2').removeClass('hidden');
-                        $('#tipoSuccess').addClass('hidden');
                     }
                 },
                 error: function(result){
+                    $('#tipoSuccess').addClass('hidden');
                     $('#tipoLoading').addClass('hidden');
                     $('#tipoError').removeClass('hidden');
-                    $('#tipoSuccess').addClass('hidden');
                 },
             });
          } else {

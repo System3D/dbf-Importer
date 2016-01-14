@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+
+
+
+
     var table = $('#dataTables').DataTable({
         responsive: true,
         "ordering": false,
@@ -23,11 +28,35 @@ $(document).ready(function() {
             } );
         }
     } );
- 
-    
 
+ var Basepath = "http://localhost/s4w";
     $('#tableData').DataTable({
          responsive: true
-    });
+    }); 
 
-} );
+        $.fn.editable.defaults.mode = 'popup';
+        $('.xedit').editable();     
+        $(document).on('click','.editable-submit',function(){
+        var key = $(this).closest('.editable-container').prev().attr('key');
+        var x = $(this).closest('.editable-container').prev().attr('id');
+        var y = $('.input-sms').val();
+        var z = $(this).closest('.editable-container').prev().text(y);
+
+            $.ajax({
+                type: "POST",
+                url: Basepath + "/saas/conjuntos/editTable",
+                data: {id:x, data:y, key:key},
+                success: function(s){
+                    if(s == 'status'){
+                    $(z).html(y);}
+                    if(s == 'error') {
+                    alert('Error Processing your Request!');}
+                },
+                error: function(e){
+                    alert('Error Processing your Request!!');
+                }
+            });
+        });
+
+});
+
