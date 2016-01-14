@@ -8,7 +8,7 @@
     <!-- /.row -->
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Importações
@@ -37,13 +37,13 @@
             </div>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <?php
                 if(!empty($this->session->flashdata('danger'))){
                 ?>
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    Erro ao gravar!
+                    Erro!
                 </div>
                 <div class="panel-body">
                     <p><?= $this->session->flashdata('danger'); ?></p>
@@ -64,6 +64,41 @@
                 }
             ?>
         </div>
+        <div class="col-lg-4">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+                Bancos Importados
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+       <?php
+            if(!isset($files)){
+                echo "<h5>Sem Bancos Cadastrados.</h5>";
+            }else{
+                foreach($files as $fil){
+                 $name =    explode('/',$fil['name']);
+                 $name = end($name);
+
+            ?>
+            <div class="row">
+             <div class="col-lg-12" id="editorino">
+                <h5 style='font-size:16px'>Nome: <strong><?= $name ?></strong>
+                <div style="float:right;margin-right:15px">
+                <a href="<?= base_url()."saas/importacoes/excluirdbf/".$fil['id'] ?>" onclick="return confirm('Realmente Deseja Excluir? Todos desenhos vinculados a este banco serão excluidos.')" title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
+                </div>
+                </h5>
+            <?php if(isset($fil['observacao'])){ ?>
+                <p style='font-size:12px;padding:5px'> <?= $fil['observacao'] ?> </p>
+                <?php } ?>
+              </div>
+            </div>
+            <?php
+                }
+            }
+            ?>   
+         </div>
+      </div>
+    </div>
     </div> 
   <a style="float:left" href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
     <!-- /.row -->

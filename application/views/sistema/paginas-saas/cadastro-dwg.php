@@ -38,6 +38,10 @@
                 </div>
                 <!-- /.panel-body -->
             </div>
+            <a href="<?=base_url() . 'saas/conjuntos/grd/'.$IDfil;?>" style="width:90%;margin-left:5%" class="btn btn-logout btn-block">Visualizar GRD</a>
+            <br />
+            <hr>
+            <br />
         </div>
         <div class="col-lg-4">
              <div class="panel panel-default">
@@ -60,11 +64,39 @@
         </div>
         
          <?php
+            if(!empty($this->session->flashdata('message'))){
+                foreach($this->session->flashdata('message') as $msg){
+                    list($stat, $header, $messag) = explode('&',$msg);
+                    if($stat == 'NO'){
+                    ?>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <?= $header ?>
+                    </div>
+                    <div class="panel-body">
+                        <p><?= $messag; ?></p>
+                    </div>
+                </div>
+                <?php
+                    }elseif($stat == 'YES'){
+                ?>
+                    <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <?= $header ?>
+                    </div>
+                    <div class="panel-body">
+                         <p><?= $messag; ?></p>
+                    </div>
+                </div>
+            <?php
+                }
+            }
+        }
                 if(!empty($this->session->flashdata('danger'))){
                 ?>
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    Erro ao gravar!
+                    Erro!
                 </div>
                 <div class="panel-body">
                     <p><?= $this->session->flashdata('danger'); ?></p>
@@ -80,11 +112,11 @@
                 <div class="panel-body">
                     <p><?= $this->session->flashdata('success'); ?></p>
                 </div>
-            </div>
+                </div>
             <?php
                 }
             ?> 
-    </div>
+      </div>
     <div class="col-lg-4">
              <div class="panel panel-default">
                 <div class="panel-heading">
@@ -101,7 +133,7 @@
                             ?>
                             <div class="row">
                              <div class="col-lg-12" id="editorino">
-                                <h5>Nome: <strong><?= $fil->fileName ?></strong>
+                                <h5 style='font-size:16px'>Nome: <strong><?= $fil->fileName ?></strong>
                                 <div style="float:right;margin-right:15px">
                                 <a href="#" title="Editar" class="editedi"><i class="fa fa-pencil fa"></i></a>
 
@@ -109,6 +141,9 @@
                                 <a href="<?= base_url()."saas/importacoes/excluirdwg/".$fil->dwgID."and".$IDfil ?>" title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
                                 </div>
                                 </h5>
+                                 <?php if(isset($fil->observacoes)){ ?>
+                                <p style='font-size:12px;padding:5px'> <?= $fil->observacoes; ?> </p>
+                                <?php } ?>
                                 <form action="<?= base_url()."saas/importacoes/editardwg" ?>"  role="form" class="hidden dis" method="post" enctype="multipart/form-data">
                                 <input type="file" name="dwg" />
                                 <input type="hidden" name='dwgID' value="<?= $fil->dwgID ?>">

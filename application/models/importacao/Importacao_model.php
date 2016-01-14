@@ -161,10 +161,14 @@ class Importacao_model extends CI_Model{
                 $check[] = $todos->fileName;
                 $retorn[$x]['name'] = $todos->fileName;
                 $retorn[$x]['id'] = $todos->dbfID;
+                $retorn[$x]['observacao'] = $todos->observacoes;
                 $x++;
             }
         }
+        if(isset($retorn))
         return $retorn;
+    else 
+        return null;
 
     }
 

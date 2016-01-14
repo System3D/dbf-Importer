@@ -14,7 +14,7 @@ if (isset($edicao)) {
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Perfil de Usuario
@@ -23,7 +23,7 @@ if (isset($edicao)) {
                 <div class="panel-body">
                     <div class="row">
 
-                         <div class="col-lg-6">
+                         <div class="col-lg-12">
                             <?php
                             if (!isset($edicao)) { ?>
                             <form role="form" name="profile" id="profile" accept-charset="utf-8">
@@ -76,7 +76,7 @@ if (isset($edicao)) {
                                 <input type="hidden" name="roleID" id="roleID" value="<?=$usuario->tipoUsuarioID;?>">
                             
                              <div class="text-right" style="float:right">
-                               <button style="float:right" type="submit" class="btn btn-primary btn-block">Atualizar</button>
+                               <button style="float:right" type="submit" class="btn btn-primary btn-block">&nbsp;&nbsp;Atualizar&nbsp;&nbsp;</button>
                             </div>
                             </form>
                             <a style="float:left" href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>

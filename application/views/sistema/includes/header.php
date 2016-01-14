@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="">
     <meta name="author" content="Marcos Bessega">
-    <link rel="icon" type="image/ico" href="<?=base_url();?>assets/img/steel4web.ico">
+    <link rel="icon" type="image/ico" href="<?=base_url();?>assets/template/img/steel4web.ico">
     <title><?=$titulo;?></title>
     
     <!-- BOOTSTRAP STYLES-->
@@ -18,6 +18,7 @@
    
         <!-- CUSTOM STYLES-->
     <link href="<?=base_url();?>assets/template/css/custom.css" rel="stylesheet" />
+    <link href="<?=base_url();?>assets/template/dist/css/custom2.css" rel="stylesheet" />
      <!-- GOOGLE FONTS
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />-->
      <!-- TABLE STYLES-->

@@ -13,7 +13,7 @@
             </a> 
         </div>
           <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
-             Hoje : <?= date('d/m/Y') ?> <a style="margin-left:15px" href="<?=base_url('logout');?>" class="btn btn-logout square-btn-adjust">Logout</a>
+             Hoje : <?= date('d/m/Y') ?> <a style="margin-left:15px" href="<?=base_url('logout');?>" class="btn btn-logout">Logout</a>
           </div>
     </nav>   
 
@@ -35,13 +35,13 @@
                         </ul>
                       </li> 
                       <li>
-                        <a  href="<?=base_url('saas/conjuntos/grds');?>"><i class="fa fa-table fa-3x"></i> Listar GRDs</a>
+                        <a  href="<?=base_url('saas/conjuntos/grds');?>"><i class="fa fa-table fa-3x"></i> Listar GRDs por Banco</a>
                     </li> 
                    <li>
-                        <a  href="<?=base_url('saas/conjuntos/desenhos');?>"><i class="fa fa-list-alt fa-3x"></i> Listar Desenhos</a>
+                        <a  href="<?=base_url('saas/conjuntos/desenhos');?>"><i class="fa fa-list-alt fa-3x"></i> Listar Todos GRDs</a>
                     </li>
                     <li>
-                        <a  href="<?=base_url('saas/conjuntos/listar');?>"><i class="fa fa-list-alt fa-3x"></i> Listar Conjuntos</a>
+                        <a  href="<?=base_url('saas/conjuntos/listar');?>"><i class="fa fa-list-alt fa-3x"></i> Listar Todos Conjuntos</a>
                     </li>
                      <li>
                     <a href="<?=base_url('saas/profile/ver');?>" title="Perfil de Usuario"><i class="fa fa-user fa-3x"></i> Perfil de Usuario</a>

@@ -28,7 +28,7 @@
                                     <div style="border:1px solid #E4E4E4;margin-bottom:5px" class="panel-body">
 
                                         <span style="font-size:16px;"><strong><?= $fileName ?></strong></span>
-                                        <a style="width:25%;float:right" href="<?=base_url() . 'saas/conjuntos/grd/'.$file['id'];?>" class="btn btn-primary btn-block">Importar</a>
+                                        <a style="width:25%;float:right" href="<?=base_url() . 'saas/conjuntos/grd/'.$file['id'];?>" class="btn btn-primary btn-block">Listar</a>
 
                                     </div>
                                     <?php

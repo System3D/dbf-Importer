@@ -13,15 +13,9 @@ class Conjuntos extends MY_Controller {
         $this->load->model('template/Template_model', 'fil2');
         $this->fil2->setTable('dwgdata','dgwID');
         $this->load->model('importacao/Importacao_model', 'import');
+        $this->load->library('FPDF');
     }
 
-     public function dbfhandler()
-    {
-        $data['titulo'] = 'Steel4Web - Administrador';
-        $pagina = 'conjunto-view';
-        $this->savedbf('C:/xampp/htdocs/dev_s4w/arquivos/2/8/4/15/52/4/PIPE2.DBF');
-      //  $this->render($data, $pagina);
-    }
 
      public function listar()
     {
@@ -40,10 +34,26 @@ class Conjuntos extends MY_Controller {
         $this->render($data, $pagina);
     }
 
-    public function grd($id){
+    public function makeGrd($id){
         $data['Pesos']      = $this->getPesosID($id);
         $data['Conjuntos']  = $this->DefineDesenhos($id);
-        $data['Desenhos']   = $this->getNames();
+        $data['Desenhos']   = $this->getNamesId($id);
+        $getName            = $this->fil->get_by_field('dbfID', $id);
+        $Name = explode('/',$getName[0]->fileName);
+        $Name = end($Name);
+        if(isset($data['Conjuntos']))
+            $this->makePdf($data['Desenhos'],$data['Conjuntos'],$data['Pesos'],$Name);
+    }
+
+    public function grd($id){
+        $data['this_id']      = $id;
+        $getName            = $this->fil->get_by_field('dbfID', $id);
+        $Name = explode('/',$getName[0]->fileName);
+        $Name = end($Name);
+        $data['nomeDBF']    = $Name;
+        $data['Pesos']      = $this->getPesosID($id);
+        $data['Conjuntos']  = $this->DefineDesenhos($id);
+        $data['Desenhos']   = $this->getNamesId($id);
         $data['titulo']     = 'Steel4Web - Perfil de Usuario';
         $pagina             = 'desenho-view';
 
@@ -136,7 +146,12 @@ class Conjuntos extends MY_Controller {
                 }
             }
         }
-        return $Desenhos;
+        if(isset($Desenhos)){
+            return $Desenhos;
+        }
+        else{
+            return null;
+        }
     }
 
      private function DefineConjuntosId($id){
@@ -194,18 +209,16 @@ class Conjuntos extends MY_Controller {
             }
         }
         $Desenhos['total'] = $total;
-        dbug($Desenhos);
         return $Desenhos;
     }
 
-    |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     private function getPesosID($id){
         $conjuntos = $this->DefineConjuntosId($id);
         $filname = $this->fil->get_by_id($id);
         $name = explode('/',$filname->fileName);
-
-        $desenhos   = $this->fil2->get_all();
+        $name= end($name);
+        $desenhos   = $this->fil2->get_by_field( 'dbfName', $name);
         $total = 0;
         $Desenhos = array();
         foreach ($desenhos as $des){
@@ -221,17 +234,102 @@ class Conjuntos extends MY_Controller {
             }
         }
         $Desenhos['total'] = $total;
-        dbug($Desenhos);
         return $Desenhos;
     }
 
     private function getNames(){
-        $desenhos   = $this->fil2->get_all();
+        $desenhos   = $this->fil2->get_all_order();
         foreach ($desenhos as $des) {
             $data[] = substr($des->fileName,0,-4);
         }
         return $data;
     }
+
+     private function getNamesId($id){
+        $filname = $this->fil->get_by_id($id);
+        $name = explode('/',$filname->fileName);
+        $name= end($name);
+        $desenhos   = $this->fil2->get_by_field_order( 'dbfName', $name);
+        foreach ($desenhos as $des) {
+            $data[] = substr($des->fileName,0,-4);
+        }
+        if(isset($data)){
+            return $data;
+        }else{
+            return null;
+        }
+        
+    }
+
+    private function rrmdir($dir) { 
+   if (is_dir($dir)) { 
+     $objects = scandir($dir); 
+     foreach ($objects as $object) { 
+       if ($object != "." && $object != "..") { 
+         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+       } 
+     } 
+     reset($objects); 
+     rmdir($dir); 
+   } 
+} 
+
+    private function makePdf($Desenhos, $Conjuntos, $Pesos, $naome){
+        define('FPDF_FONTPATH', "./assets/template/font/");
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->Image(base_url('assets/template/img/logo-Steel4web-600.png'),10,6,30);
+        $pdf->Ln(4);
+        $pdf->SetFont('Arial','',12);
+        $w = array(50, 30, 50, 14, 23, 23);
+        $cabeca = array('Projeto', 'Empresa', 'Responsavel','Vrs','Contr.', 'Data');
+        $content = array('GR0-00f3', 'Vipal', 'Vitor Lima','01','Web3d', '20/01/2016');
+
+        for($i=0;$i<count($cabeca);$i++)
+        $pdf->Cell($w[$i],8,$cabeca[$i],1,0,'C');
+         $pdf->Ln();
+         $pdf->SetFont('Arial','',8);
+         for($i=0;$i<count($cabeca);$i++)
+        $pdf->Cell($w[$i],6,$content[$i],1,0,'C');
+        $pdf->Ln(20);
+         $pdf->SetFont('Arial','',14);
+        $header = array('Desenho', 'Conjunto', 'Tipologia', 'Qtd.', 'Kg(unid)', 'Kg(total)');
+        $total = array('PESO TOTAL', '-', '-', '-', '-', $Pesos['total']);
+        $data = array('Desenho', 'Conjunto', 'Tipologia', 'Quantidade', 'Peso Unid.(Kg)', 'Peso Total(Kg)');
+        $pdf->SetLineWidth(.3);
+        for($i=0;$i<count($header);$i++)
+        $pdf->Cell($w[$i],8,$header[$i],1,0,'C');
+        $pdf->Ln();
+        $pdf->SetFont('Arial','B',12);
+        for($i=0;$i<count($total);$i++)
+         $pdf->Cell($w[$i],6,$total[$i],'LRB',0,'C');
+         $pdf->Ln();
+        foreach($Desenhos as $des){
+            $pdf->SetFont('Arial','B',10);
+            $dese = array($des, '-', $Conjuntos[$des][0]['DES_PEZ'], '-', '-',  $Pesos[$des]);
+            for($i=0;$i<count($dese);$i++)
+                $pdf->Cell($w[$i],6,$dese[$i],'LRB',0,'C');
+                 $pdf->Ln();
+                 $pdf->SetFont('Arial','',10);
+            foreach($Conjuntos as $conju){
+                foreach($conju as $conj){
+                    if($conj['FLG_DWG'] == $des){
+                        $pdf->Cell($w[0],6,$conj['FLG_DWG'],'LRB',0,'C');
+                        $pdf->Cell($w[1],6,$conj['MAR_PEZ'],'LRB',0,'C');
+                        $pdf->Cell($w[2],6,$conj['DES_PEZ'],'LRB',0,'C');
+                        $pdf->Cell($w[3],6,$conj['QTA_PEZ'],'LRB',0,'C');
+                        $pdf->Cell($w[4],6,$conj['PESO_QTA'],'LRB',0,'C');
+                        $pdf->Cell($w[5],6,$conj['peso'],'LRB',0,'C');
+                        $pdf->Ln();
+                    }
+                }
+            }
+        }
+        $NamePdf = substr($naome,0,-4);
+        $NamePdf = $NamePdf.'.pdf';
+        $pdf->Cell(array_sum($w),0,'','T');
+         $pdf->Output('D',$NamePdf);
+}
 
     private function render($data, $pagina)
     {

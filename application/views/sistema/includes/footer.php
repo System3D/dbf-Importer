@@ -14,14 +14,10 @@
      <!-- DATA TABLE SCRIPTS -->
     <script src="<?=base_url();?>assets/template/js/dataTables/jquery.dataTables.js"></script>
     <script src="<?=base_url();?>assets/template/js/dataTables/dataTables.bootstrap.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#dataTables-example').dataTable();
-        });
-    </script>
          <!-- CUSTOM SCRIPTS -->
     <script src="<?=base_url();?>assets/template/dist/js/jquery.mask.min.js"></script>
     <script src="<?=base_url();?>assets/template/dist/js/funcoes.js"></script>
+    <script src="<?=base_url();?>assets/template/dist/js/funcs.js"></script>
     <script src="<?=base_url();?>assets/template/js/custom.js"></script>
 </body>
 
