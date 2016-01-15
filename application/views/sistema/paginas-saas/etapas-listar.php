@@ -1,10 +1,3 @@
-<?php
-if($tipo == 'addetapa')
-    $typ = ' Etapa';
-if($tipo == 'addimport')
-    $typ = ' Importação';
-?>
-
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -18,7 +11,7 @@ if($tipo == 'addimport')
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Escolha em qual Obra deseja adicinar nova <?= $typ ?>
+                    Escolha em qual Etapa deseja adicinar nova Importação
                 </div>
                 <?php if (!empty($obras)) { ?>
                 <!-- /.panel-heading -->
@@ -50,18 +43,11 @@ if($tipo == 'addimport')
                                 ?>
                                 <tr class="<?=$tipoStatus;?>" >
                                     <td><?=$obra->codigo;?></td>
-                                    <?php if($tipo == 'addetapa'){ ?>
-                                    <td><a href="<?=base_url() . 'saas/etapas/cadastrar/' . $obra->obraID?>"><?=$obra->nome;?></a></td>
-                                    <?php }elseif($tipo == 'addimport'){ ?>
-                                     <td><a href="<?=base_url() . 'saas/importacoes/cadastrar/' . $obra->obraID?>"><?=$obra->nome;?></a></td>
-                                     <?php } ?>
+
+                                    <td><a href="<?=base_url() . 'saas/etapas/cadastrar/' . $obra->obraID?>"><?=$obra->codigoEtapa;?></a></td>
+                                    
                                     <td><?=$obra->fantasia;?></td>
                                     <td><?=dataMySQL_to_dataBr($obra->data);?></td>
-                                    <td class="text-center">
-                                        <span class="text-<?=$tipoStatus;?>">
-                                            <?=$status;?>
-                                        </span>
-                                    </td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -85,7 +71,7 @@ if($tipo == 'addimport')
             <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
         </div>
         <div class="col-lg-6 col-md-6 text-right">
-           <a href="<?=base_url('saas/obras/cadastrar/');?>" type="button" class="btn btn-primary">Cadastrar Obra</a>
+           <a href="<?=base_url() . 'saas/etapas/cadastrar/' . $obras[0]->obraID?>" type="button" class="btn btn-primary">Cadastrar Etapa</a>
         </div>
     </div>
     <br /><hr /><br />

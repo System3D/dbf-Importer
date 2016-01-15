@@ -9,7 +9,7 @@
             </button>
             <a class="navbar-brand" href="<?=base_url('saas/admin');?>" title="Dashboard">
                 <div style="height:3.5px;width:1px"></div>
-                <img src="<?= base_url() ?>assets/template/img/logo-Steel4web.png" style="margin-top:-5px"/>
+                <img src="<?= base_url() ?>assets/template/img/logo-Steel4web.png" style="margin-top:-20px;margin-left:-5px"/>
             </a> 
         </div>
           <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">

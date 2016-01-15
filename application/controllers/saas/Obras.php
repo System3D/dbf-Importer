@@ -30,6 +30,7 @@ class Obras extends MY_Controller {
 
     public function addetapa()
     {
+        $data['tipo'] = 'addetapa';
         $data['titulo'] = 'GedSteel - Administrador';
         $pagina = 'obras-etapa';
         $data['obras'] = $this->obras->get_all();

@@ -18,7 +18,7 @@ class Admin extends MY_Controller {
     {
         
         $this->load->helper('text');
-        $data['titulo']           = 'Steel4Web - Administrador';
+        $data['titulo']           = 'GedSteel - Administrador';
         $data['pagina']           = 'dash-admin';
         $this->render($data);
     }

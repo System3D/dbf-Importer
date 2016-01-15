@@ -14,7 +14,9 @@ class Importacoes extends MY_Controller {
         if (!file_exists($Path) && !is_dir($Path)):
             mkdir($Path, 0777);
         endif;
-
+        $this->load->model('etapas/Etapas_model', 'etapas');
+        $this->load->model('obras/Obras_model', 'obras');
+        $this->load->model('clientes/Clientes_model', 'clientes');
         $this->load->model('importacao/Importacao_model', 'import');
         $this->load->model('template/Template_model', 'fil');
         $this->fil->setTable('dbfdata','dbfID');
@@ -22,6 +24,22 @@ class Importacoes extends MY_Controller {
         $this->fil2->setTable('dwgdata','dwgID');
 
 
+    }
+
+    public function cadastrar($id){
+        $data['tipo'] = 'addimport';
+        $data['titulo'] = 'GedSteel - Administrador';
+        $pagina = 'etapas-listar';
+        $data['obras'] = $this->etapas->get_all($id);
+        $this->render($data, $pagina);
+    }
+
+    public function nova(){
+        $data['tipo'] = 'addimport';
+        $data['titulo'] = 'GedSteel - Administrador';
+        $pagina = 'obras-etapa';
+        $data['obras'] = $this->obras->get_all();
+        $this->render($data, $pagina);
     }
 
    public function listar($subEtapaID)
