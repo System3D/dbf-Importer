@@ -56,7 +56,7 @@
                     <td><?= $des ?></td>
                     <td> - </td>
                     <td><?= $des ?></td>
-                    <td><?= $Conjuntos[$des][0]['DES_PEZ'] ?? '-' ?></td>
+                    <td><?= $Conjuntos[$des][0]['DES_PEZ'] ? $Conjuntos[$des][0]['DES_PEZ'] : '-' ?></td>
                     <td> - </td>
                     <td> - </td>
                     <td><?= number_format($Pesos[$des], 2, ',', '.'); ?></td>

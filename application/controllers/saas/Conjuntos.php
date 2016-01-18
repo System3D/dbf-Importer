@@ -108,7 +108,7 @@ class Conjuntos extends MY_Controller {
     		foreach($data['dados'] as $dado2){
     		if($conj->MAR_PEZ == $dado2->MAR_PEZ && $dado2->FLG_REC === '04'){
     			$indice = $conj->dbfID;
-    			empty($Peso[$conj->dbfID]) ?? 0;
+    			$Peso[$conj->dbfID] = empty($Peso[$conj->dbfID]) ?  0 : $Peso[$conj->dbfID];
     			$Peso[$indice] += $dado2->PUN_LIS * $dado2->QTA_PEZ;
     		}
     	}
@@ -180,7 +180,7 @@ class Conjuntos extends MY_Controller {
             foreach($data['dados'] as $dado2){
             if($conj->MAR_PEZ == $dado2->MAR_PEZ && $dado2->FLG_REC === '04'){
                 $indice = $conj->dbfID;
-                empty($Peso[$conj->dbfID]) ?? 0;
+                $Peso[$conj->dbfID] = empty($Peso[$conj->dbfID]) ?  0 : $Peso[$conj->dbfID];
                 $Peso[$indice] += $dado2->PUN_LIS * $dado2->QTA_PEZ;
             }
         }

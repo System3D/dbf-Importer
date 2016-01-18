@@ -58,8 +58,8 @@ if (isset($edicao)) {
         </div>
         <?php if(!empty($this->session->flashdata('success')))
                 list($name, $pass) = explode('&x&',$this->session->flashdata('success'));
-                $name ?? '';
-                $pass ?? ''
+                $name = $name ? $name : '';
+                $pass = $pass ? $pass : '';
             ?>
         <div class="col-lg-4 hidden" id="tipoSuccess">
             <div class="panel panel-success">
