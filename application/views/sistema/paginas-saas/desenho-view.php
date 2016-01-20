@@ -1,20 +1,19 @@
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <?php
-            if(isset($nomeDBF)){
-            ?>
-            <h3 class="page-header">GRD Referente ao Banco <i style='font-size:22px'><?= $nomeDBF; ?></i></h3>
-            <?php
-                }else{
-            ?>
-            <h3 class="page-header">GRD Referente a todos Bancos Cadastrados</h3>
-            <?php } ?>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            GRD Referente a  <i style='font-size:22px'><?= $nomeDBF; ?></i>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="<?=base_url('saas/importacoes/obras');?>"><i class="fa fa-building"></i> Obras</a></li>
+            <li><a href="<?=base_url('saas/importacoes/etapas').'/'.$import->etapaID;?>"><i class="fa fa-crop"></i> Etapas</a></li>
+            <li><a href="<?=base_url('saas/importacoes/painel').'/'.$import->importacaoID;?>"><i class="fa fa-upload"></i> Importações</a></li>
+            <li><a href="<?=base_url('saas/importacoes/gravardwg').'/'.$import->importacaoID;?>"><i class="fa fa-picture-o"></i> Desenhos</a></li>
+            <li class="active">GRD</li>
+          </ol>
+        </section>
     <!-- /.row -->
 
+  <section class="content">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">

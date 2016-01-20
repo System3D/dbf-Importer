@@ -1,12 +1,18 @@
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Importação de arquivos</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            Importação de arquivos -  
+            <small><?= $etapa->codigoEtapa ?>  |   <?= $obra->nome ?></small>
+          </h1>
+          <ol class="breadcrumb">
+             <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="<?=base_url('saas/importacoes/obras');?>"><i class="fa fa-building"></i> Obras</a></li>
+            <li><a href="<?=base_url('saas/importacoes/etapas').'/'.$etapa->etapaID;?>"><i class="fa fa-crop"></i> Etapas</a></li>
+            <li class="active"> Importações</li>
+          </ol>
+        </section>
     <!-- /.row -->
 
+  <section class="content">
     <div class="row">
         <div class="col-lg-4">
             <div class="panel panel-default">
@@ -15,11 +21,16 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                            <h4>Importação de arquivos padrão Tecnometal</h4>
+                            <h4 class='text-center'>Importação de arquivos padrão Tecnometal</h4>
+                            <hr style='margin:3px !important'>
                             <br />
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form" method="post" action="<?=base_url() . 'saas/importacoes/gravardbf';?>" enctype="multipart/form-data">
+                                    <form role="form" method="post" action="<?=base_url() . 'saas/importacoes/gravardbf/'.$etapa->etapaID;?>" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label>Nome</label>
+                                            <input class="form-control" name="nome">
+                                        </div>  
                                         <div class="form-group">
                                             <label>Arquivo DFB</label>
                                             <input type="file" name="dbf" />
@@ -93,27 +104,40 @@
                 echo "<h5>Sem Bancos Cadastrados.</h5>";
             }else{
                 foreach($files as $fil){
-                 $name =    explode('/',$fil['name']);
-                 $name = end($name);
-                $path = $fil['name'];
-                $path=explode('/',$path);
-                array_shift($path);
-                array_shift($path);
-                array_shift($path);
-                array_shift($path);
-                $path = base_url(implode('/',$path));
-
             ?>
             <div class="row">
              <div class="col-lg-12" id="editorino">
-                <h5 style='font-size:16px'>Nome: <strong><?= $name ?></strong>
+                <h5 style='font-size:16px'><a title='Importar Desenhos .dwg' href="<?= base_url()."saas/importacoes/gravardwg/".$fil->importacaoID ?>"><strong><?= $fil->name ?></a></strong>
+                <h5 style='font-size:14px'>Arquivo: <strong><?= $fil->arquivo ?></strong>
                 <div style="float:right;margin-right:15px">
-                <a href="<?= base_url()."saas/importacoes/todeletedbf/".$fil['id'] ?>"  title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
+                <?php
+                 if(($fil->status == 0) || ($this->session->userdata('tipoUsuarioID') == 1)){
+                ?>
+                <a href="<?= base_url()."saas/importacoes/todeletedbf/".$fil->importacaoID ?>"  title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
+                <?php
+                    }
+                ?>
                 &nbsp;
-                <a href="<?= $path ?>" target="_blank" title="Download" style="color:#323232"><i class="fa fa-download fa"></i></a>
+                <a href="<?= $fil->path ?>" target="_blank" title="Download" style="color:#323232"><i class="fa fa-download fa"></i></a>
+                &nbsp;
+                <?php
+                    if($fil->status == 1){
+                ?>
+                <i style='color:green' title='Aprovado' class="fa fa-check fa "></i>
+                <?php
+                    }elseif($fil->status == 2){
+                ?>
+                <i style='color:red' title='Reprovado' class="fa fa-times fa "></i>
+                <?php
+                    }elseif($fil->status == 3){
+                ?>
+                <i style='color:blue' title='Aguardando Aprovação' class="fa fa-clock-o fa"></i>
+                <?php
+                   }
+                ?>
                 </div>
                 </h5>
-            <?php if(isset($fil['observacao'])){ ?>
+            <?php if(isset($fil->observacoes)){ ?>
                 <p style='font-size:12px;padding:5px'> <?= $fil['observacao'] ?> </p>
                 <?php } ?>
               </div>
@@ -130,3 +154,4 @@
     <!-- /.row -->
     <br /><hr /><br />
 </div>
+</section>

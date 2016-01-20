@@ -110,6 +110,26 @@ class Importacao_model extends CI_Model{
         return $query->row();
     }
 
+    public function get_all_dados($id = null){
+        if($id == null){
+        $this->db->select('*');
+            $this->db->from($this->table);
+            $this->db->join('obras', 'obras.obraID = importacoes.obraID')
+            ->join('etapas','etapas.etapaID = importacoes.etapaID')
+            ->where('importacoes.locatarioID', $this->session->userdata('locatarioID'));
+            $query = $this->db->get();
+        }else{
+           $this->db->select('*');
+            $this->db->from($this->table);
+            $this->db->join('obras', 'obras.obraID = importacoes.obraID')
+            ->join('etapas','etapas.etapaID = importacoes.etapaID')
+            ->where('userID', $this->session->userdata('usuarioID'))
+            ->where('importacoes.locatarioID', $this->session->userdata('locatarioID'));
+            $query = $this->db->get(); 
+        }
+        return $query->result();
+    }
+
      public function get_names($subetapaID)
     {
         $this->db->select('subetapas.codigoSubetapa, subetapas.etapaID, etapas.codigoEtapa, obras.nome, clientes.razao')
@@ -147,7 +167,7 @@ class Importacao_model extends CI_Model{
         return $all[0]->fileName;
     }
 
-       public function get_dbfNames(){
+       public function get_dbfNames($id){
         $ctable   = 'dbfdata';
         $ctableID = 'dbfID';
         $this->db->select('*')

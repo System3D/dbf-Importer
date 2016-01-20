@@ -35,22 +35,21 @@ class Conjuntos extends MY_Controller {
     }
 
     public function makeGrd($id){
+        // $this->load->helper('url');
         $data['Pesos']      = $this->getPesosID($id);
         $data['Conjuntos']  = $this->DefineDesenhos($id);
         $data['Desenhos']   = $this->getNamesId($id);
-        $getName            = $this->fil->get_by_field('dbfID', $id);
-        $Name = explode('/',$getName[0]->fileName);
-        $Name = end($Name);
+        $getName            = $this->import->get_by_id($id);
+        $Name = url_title($getName->name);
         if(isset($data['Conjuntos']))
             $this->makePdf($data['Desenhos'],$data['Conjuntos'],$data['Pesos'],$Name);
     }
 
     public function grd($id){
         $data['this_id']      = $id;
-        $getName            = $this->fil->get_by_field('dbfID', $id);
-        $Name = explode('/',$getName[0]->fileName);
-        $Name = end($Name);
-        $data['nomeDBF']    = $Name;
+        $getName            = $this->import->get_by_id($id);
+        $data['import']  = $getName;
+        $data['nomeDBF']    = $getName->name;
         $data['Pesos']      = $this->getPesosID($id);
         $data['Conjuntos']  = $this->DefineDesenhos($id);
         $data['Desenhos']   = $this->getNamesId($id);
@@ -164,10 +163,7 @@ class Conjuntos extends MY_Controller {
     }
 
      private function DefineConjuntosId($id){
-        $filname = $this->fil->get_by_id($id);
-        $name = $filname->fileName;
-
-        $data['dados']  = $this->fil->get_by_field( 'fileName', $name);
+        $data['dados']  = $this->fil->get_by_field( 'importID', $id);
         $conjuntos;
         $Peso;
         foreach($data['dados'] as $dado){
@@ -224,10 +220,7 @@ class Conjuntos extends MY_Controller {
 
     private function getPesosID($id){
         $conjuntos = $this->DefineConjuntosId($id);
-        $filname = $this->fil->get_by_id($id);
-        $name = explode('/',$filname->fileName);
-        $name= end($name);
-        $desenhos   = $this->fil2->get_by_field( 'dbfName', $name);
+        $desenhos   = $this->fil2->get_by_field( 'importID', $id);
         $total = 0;
         $Desenhos = array();
         foreach ($desenhos as $des){
@@ -255,10 +248,8 @@ class Conjuntos extends MY_Controller {
     }
 
      private function getNamesId($id){
-        $filname = $this->fil->get_by_id($id);
-        $name = explode('/',$filname->fileName);
-        $name= end($name);
-        $desenhos   = $this->fil2->get_by_field_order( 'dbfName', $name);
+
+        $desenhos   = $this->fil2->get_by_field_order( 'importID', $id);
         foreach ($desenhos as $des) {
             $data[] = substr($des->fileName,0,-4);
         }
@@ -338,8 +329,7 @@ class Conjuntos extends MY_Controller {
                 }
             } */
         }
-        $NamePdf = substr($naome,0,-4);
-        $NamePdf = $NamePdf.'.pdf';
+        $NamePdf = $naome.'.pdf';
         $pdf->Cell(array_sum($w),0,'','T');
          $pdf->Output('D',$NamePdf);
 }

@@ -77,7 +77,7 @@ class Obras extends MY_Controller {
         }
 
         $attributes = array(
-            'status'  => $codStatus
+            'statusObra'  => $codStatus
         );
 
         $mudancaStatus = $this->obras->update($id, $attributes);
@@ -139,7 +139,7 @@ class Obras extends MY_Controller {
                     'calculistaID'   => '-',
                     'detalhamentoID' => '-',
                     'montagemID'     => '-',
-                    'status'         => '1',
+                    'statusObra'         => '1',
                     'locatarioID'    => $this->session->userdata('locatarioID'),
                     'data'           => date('Y-m-d H:i:s')
                 );
@@ -152,7 +152,7 @@ class Obras extends MY_Controller {
                     'nome'          => $dados['nome'],
                     'senha'         => sha1('web3d@' . $newPass . '@web3d'),
                     'email'         => $dados['codigo'],
-                    'status'        => '1',
+                    'statusObra'        => '1',
                     'tipoUsuarioID' => '7',
                     'locatarioID'   => $this->session->userdata('locatarioID'),
                     'obraID'        =>  $obraID,
@@ -167,7 +167,6 @@ class Obras extends MY_Controller {
                 $this->logs->gravar($log);
 
                 if($obraID && $userId){
-                    $this->session->set_flashdata('success', $dados['codigo'].'&x&'. $newPass);
                     die('sucesso');
                 }
             }

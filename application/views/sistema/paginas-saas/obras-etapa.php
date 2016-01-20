@@ -5,20 +5,24 @@ if($tipo == 'addimport')
     $typ = ' Importação';
 ?>
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Escolha uma Obra</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+    <section class="content-header">
+          <h1>
+            Obras
+            <small>Escolha uma Obra</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"> Obras</li>
+          </ol>
+        </section>
     <!-- /.row -->
 
-    <div class="row">
+     <section class="content">
+          <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Escolha em qual Obra deseja adicinar nova <?= $typ ?>
+                    Escolha uma obra
                 </div>
                 <?php if (!empty($obras)) { ?>
                 <!-- /.panel-heading -->
@@ -38,7 +42,7 @@ if($tipo == 'addimport')
                             <?php foreach ($obras as $obra) { ?>
 
                             <?php
-                                if ($obra->status == 0) {
+                                if ($obra->statusObra == 0) {
                                     $status = 'Inativo';
                                     $tipoStatus = 'danger';
                                     $acaoStatus = 'ativar';
@@ -53,7 +57,7 @@ if($tipo == 'addimport')
                                     <?php if($tipo == 'addetapa'){ ?>
                                     <td><a href="<?=base_url() . 'saas/etapas/cadastrar/' . $obra->obraID?>"><?=$obra->nome;?></a></td>
                                     <?php }elseif($tipo == 'addimport'){ ?>
-                                     <td><a href="<?=base_url() . 'saas/importacoes/cadastrar/' . $obra->obraID?>"><?=$obra->nome;?></a></td>
+                                     <td><a href="<?=base_url() . 'saas/importacoes/etapas/' . $obra->obraID?>"><?=$obra->nome;?></a></td>
                                      <?php } ?>
                                     <td><?=$obra->fantasia;?></td>
                                     <td><?=dataMySQL_to_dataBr($obra->data);?></td>
@@ -88,8 +92,8 @@ if($tipo == 'addimport')
            <a href="<?=base_url('saas/obras/cadastrar/');?>" type="button" class="btn btn-primary">Cadastrar Obra</a>
         </div>
     </div>
+</section>
     <br /><hr /><br />
-</div>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#dataTables').DataTable({

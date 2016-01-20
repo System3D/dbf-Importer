@@ -9,15 +9,28 @@
     <meta name="author" content="Marcos Bessega">
     <link rel="icon" type="image/ico" href="<?=base_url();?>assets/template/img/steel4web.ico">
     <title><?=$titulo;?></title>
+
+    <link rel="stylesheet" href="<?=base_url();?>assets/template/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=base_url();?>assets/template/css/AdminLTE.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
     
-    <!-- BOOTSTRAP STYLES-->
-    <link href="<?=base_url();?>assets/template/css/bootstrap.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="<?=base_url();?>assets/template/css/skins/_all-skins.min.css">
+    
+    <!-- BOOTSTRAP STYLES
+    <link href="<?=base_url();?>assets/template/css/bootstrap.css" rel="stylesheet" /> -->
      <!-- FONTAWESOME STYLES-->
-    <link href="<?=base_url();?>assets/template/css/font-awesome.css" rel="stylesheet" />
-     <!-- MORRIS CHART STYLES-->
+  <!--    <link href="<?=base_url();?>assets/template/css/font-awesome.min.css" rel="stylesheet" /> 
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">  -->
+     <!-- MORRIS CHART STYLES--> 
    
-        <!-- CUSTOM STYLES-->
-    <link href="<?=base_url();?>assets/template/css/custom.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES
+    <link href="<?=base_url();?>assets/template/css/custom.css" rel="stylesheet" /> -->
     <link href="<?=base_url();?>assets/template/dist/css/custom2.css" rel="stylesheet" />
      <!-- GOOGLE FONTS
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />-->
@@ -31,5 +44,5 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body class="hold-transition fixed skin-purple sidebar-mini">
     <div id="wrapper">

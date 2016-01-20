@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/s4w/';
+$config['base_url'] = 'http://localhost/JediSteel/';
 // $config['base_url'] = 'http://187.108.197.154/s4w/';
 // $config['base_url'] = 'http://minhafirma.com/';
 /*

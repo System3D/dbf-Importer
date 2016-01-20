@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['sistema/dashboard']    = 'sistema/admin/dashboard';
+$route['401']			       = 'saas/importacoes/notallowed';
 $route['saas/login']           = 'login/saas';
 $route['apocalipse']           = 'service/revelation/begin';
 $route['logout']               = 'login/logout';

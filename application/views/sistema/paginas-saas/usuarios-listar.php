@@ -1,12 +1,15 @@
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Usuários</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            Usuários
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"> Usuários</li>
+          </ol>
+        </section>
     <!-- /.row -->
 
+  <section class="content">
 <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -20,8 +23,8 @@
                         <table class="table table-striped table-bordered  dt-responsive nowrap table-hover" cellspacing="0" width="100%" id="dataTables">
                             <thead>
                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Email</th>
+                                    <th>Nome/Obra</th>
+                                    <th>Email/Codigo</th>
                                     <th>Tipo</th>
                                     <th>Status</th>
                                     <th>Ações</th>
@@ -127,7 +130,7 @@
         </div>
     </div>
     <br /><hr /><br />
-</div>
+</section>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#dataTables').DataTable({

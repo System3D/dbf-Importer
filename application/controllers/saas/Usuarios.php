@@ -6,9 +6,9 @@ class Usuarios extends MY_Controller {
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('tipoUsuarioID') != 1) {
+     /*   if ($this->session->userdata('tipoUsuarioID') != 1) {
             redirect(base_url() . 'login/saas', 'refresh');
-        }
+        } */
         $this->load->model('usuarios/Usuarioslocatarios_model', 'locUser');
     }
 
@@ -103,16 +103,17 @@ class Usuarios extends MY_Controller {
             $dados['locatarioID']        = $this->session->userdata('locatarioID');
             $dados['tipoUsuarioID']      = $this->input->post('tipoUsuarioID');
             $dados['usuarioLocatarioID'] = $this->input->post('usuarioLocatarioID');
-
-            if(isset($dados['nome']) && isset($dados['email']) && isset($dados['senha']) && isset($dados['locatarioID']) && isset($dados['usuarioLocatarioID']) && isset($dados['tipoUsuarioID'])) {
+            if(empty($dados['senha'])) unset($dados['senha']);
+            if(isset($dados['nome']) && isset($dados['email']) &&  isset($dados['locatarioID']) && isset($dados['usuarioLocatarioID']) && isset($dados['tipoUsuarioID'])) {
 
                 $attributes = array(
                     'nome'          => $dados['nome'],
                     'email'         => $dados['email'],
-                    'senha'         => sha1('web3d@' . $dados['senha'] . '@web3d'),
                     'tipoUsuarioID' => $dados['tipoUsuarioID'],
                     'locatarioID'   => $dados['locatarioID']
                 );
+
+                if(isset($dados['senha'])) $attributes['senha'] = sha1('web3d@' . $dados['senha'] . '@web3d');
 
                 $locatarioUsuarioID = $this->locUser->update($dados['usuarioLocatarioID'], $attributes);
 

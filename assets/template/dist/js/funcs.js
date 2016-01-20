@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
 
+  $('#normalTable').DataTable({
+         responsive: true
+    });
 
 
 

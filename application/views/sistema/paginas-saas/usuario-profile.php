@@ -5,14 +5,19 @@ if (isset($edicao)) {
     $tipo = 'Perfil de Usuario';
 }
 ?>
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"><?= $tipo ?></h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            <?= $tipo ?>
+            <small>Erro 401</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"> <?= $tipo ?></li>
+          </ol>
+        </section>
     <!-- /.row -->
+
+  <section class="content">
     <div class="row">
         <div class="col-lg-4">
             <div class="panel panel-default">
@@ -133,5 +138,5 @@ if (isset($edicao)) {
     </div>
     <!-- /.row -->
     <br /><hr /><br />
-</div>
 <script type="text/javascript" src="<?=base_url();?>assets/bower_components/jquery/dist/jquery.min.js"></script>
+</section>

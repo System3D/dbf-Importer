@@ -26,15 +26,26 @@ class Importacoes extends MY_Controller {
 
     }
 
-    public function cadastrar($id){
-        $data['tipo'] = 'addimport';
+    public function etapas($id){
         $data['titulo'] = 'GedSteel - Administrador';
         $pagina = 'etapas-listar';
-        $data['obras'] = $this->etapas->get_all($id);
+        $data['etapas'] = $this->etapas->get_all($id);
+        $data['obra'] = $this->obras->get_by_id($id);
         $this->render($data, $pagina);
     }
 
-    public function nova(){
+    public function painel($id){
+        $data['titulo'] = 'GedSteel - Administrador';
+        $pagina = 'importacoes-dbf';
+        $data['files'] = $this->import->get_by_field('etapaID',$id);
+        $data['etapa'] = $this->etapas->get_by_id($id);
+        $data['obra'] = $this->obras->get_by_id($data['etapa']->obraID);
+        $this->render($data, $pagina);
+    }
+
+
+
+    public function obras(){
         $data['tipo'] = 'addimport';
         $data['titulo'] = 'GedSteel - Administrador';
         $pagina = 'obras-etapa';
@@ -44,7 +55,7 @@ class Importacoes extends MY_Controller {
 
    public function listar($subEtapaID)
     {
-        $data['titulo'] = 'Steel4Web - Administrador';
+        $data['titulo'] = 'GedSteel - Administrador';
         $data['dados'] = $this->import->get_dados($subEtapaID);
 
         $data['importacoes'] = $this->import->get_by_field('subetapaID', $subEtapaID);
@@ -55,15 +66,28 @@ class Importacoes extends MY_Controller {
 
     public function dbf()
     {
-        $data['titulo'] = 'Steel4Web - Administrador';
+        $data['titulo'] = 'GedSteel - Administrador';
         $data['files'] = $this->import->get_dbfNames();
         $pagina = 'importacoes-dbf';
         $this->render($data, $pagina);
     } 
 
+    public function suas(){
+        $data['titulo'] = 'GedSteel - Administrador';
+        $pagina = 'importacoes-suas';
+        if($this->session->userdata('tipoUsuarioID') == 1){
+            $data['imports'] = $this->import->get_all_dados();
+        }elseif($this->session->userdata('tipoUsuarioID') != 3){
+            $data['imports'] = $this->import->get_by_field('userID',$this->session->userdata('usuarioID'));
+        }else{
+           redirect(base_url() . '401', 'refresh'); 
+        }
+        $this->render($data, $pagina);
+    }
+
     public function dwg()
     {
-        $data['titulo'] = 'Steel4Web - Administrador';
+        $data['titulo'] = 'GedSteel - Administrador';
         $data['files'] = $this->import->get_dbfNames();
         $pagina = 'importacoes-dwg';
         $this->render($data, $pagina);
@@ -72,7 +96,7 @@ class Importacoes extends MY_Controller {
 
     public function listar_all()
     {
-        $data['titulo'] = 'Steel4Web - Administrador';
+        $data['titulo'] = 'GedSteel - Administrador';
 
         $data['dados'] = $this->import->get_all_list();
         $d = 0;
@@ -188,9 +212,11 @@ class Importacoes extends MY_Controller {
 
     public function gravardwg($fileID){
         
-        $file = $this->import->getFileName($fileID);
+        $filee = $this->fil->get_by_field('importID',$fileID);
+        $file = $filee[0]->fileName;
+        $data['import'] = $this->import->get_by_id($fileID);
         $data['IDfil'] = $fileID;
-        $data['titulo'] = 'Steel4Web - Administrador';
+        $data['titulo'] = 'GedSteel - Administrador';
         $check =  $this->checkfiles($file);
         $data['status'] =  $this->statusCheck($check);
         $data['check'] = $this->checkHandler($check, $data['status']);
@@ -200,6 +226,15 @@ class Importacoes extends MY_Controller {
         $pagina = 'cadastro-dwg';
         $this->render($data, $pagina);
 
+    }
+
+    public function revok($id){
+        $data = array(
+                'status'  => 3
+            );
+        $this->import->update($id, $data);
+        $this->session->set_flashdata('success', "Importação enviada para Revisão!");
+        redirect("saas/importacoes/gravardwg/".$id, 'refresh');
     }
 
      private function checkfiles($file){
@@ -290,7 +325,7 @@ class Importacoes extends MY_Controller {
         return $files;
     }
 
-    public function gravardbf(){
+    public function gravardbf($etapaID){
         
 
         $Path =  "C:/xampp/htdocs/s4w/arquivos/";
@@ -299,7 +334,23 @@ class Importacoes extends MY_Controller {
         }else{
             $observacoes = null;
         }
+        if(empty($this->input->post('nome'))){
+                $data['erro'] = 'Erro ao importar: ' . "Favor Informe um Nome para a Importação!";
+                $this->session->set_flashdata('danger', $data['erro']);
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
+        }else{
+            $impName =  $this->input->post('nome');
+        }
 
+        $datas = $this->import->get_all_list();
+        foreach($datas as $dad){
+            if($dad->name == $impName){
+                $data['erro'] = 'Erro ao importar: ' . "Nome em Uso!";
+                $this->session->set_flashdata('danger', $data['erro']);
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
+            }
+        }
+        
         // Pasta onde o arquivo vai ser salvo
         $_UP['pasta'] = $Path;
         // Tamanho máximo do arquivo (em Bytes)
@@ -321,7 +372,7 @@ class Importacoes extends MY_Controller {
             if(empty($_FILES['dbf'])){
                 $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo DBF!";
                 $this->session->set_flashdata('danger', $data['erro']);
-                redirect("saas/importacoes/dbf", 'refresh');
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
             }else{
                 $file = $_FILES['dbf'];
             }
@@ -330,7 +381,7 @@ class Importacoes extends MY_Controller {
             if(empty($file['name'])){
                 $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo dbf com nome valida!";
                 $this->session->set_flashdata('danger', $data['erro']);
-                redirect("saas/importacoes/dbf", 'refresh');
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
             }
 
             list($fileName, $extensao) = explode('.', $file['name']);
@@ -339,21 +390,21 @@ class Importacoes extends MY_Controller {
             if (array_search($extensao, $_UP['extensoes']) === false) {
               $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo com a seguinte extensão: dbf(.DBF).";
                 $this->session->set_flashdata('danger', $data['erro']);
-                redirect("saas/importacoes/dbf", 'refresh');
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
             }
 
             if ($_UP['tamanho'] < $file['size']){
                 $data['erro'] = 'Erro ao importar: ' . "Favor envie arquivo com no maximo 10mb!";
                 $this->session->set_flashdata('danger', $data['erro']);
-                redirect("saas/importacoes/dbf", 'refresh');
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
             }
 
             list($y, $m) = explode('/', date('Y/m'));
             $this->import->CreateFolder("{$Folder}");
             $this->import->CreateFolder("{$Folder}/{$y}");
             $this->import->CreateFolder("{$Folder}/{$y}/{$m}/");
-            $this->import->CreateFolder("{$Folder}/{$y}/{$m}/{$fileName}");
-            $Path =  $Path . "{$Folder}/{$y}/{$m}/{$fileName}/";
+            $this->import->CreateFolder("{$Folder}/{$y}/{$m}/{$impName}");
+            $Path =  $Path . "{$Folder}/{$y}/{$m}/{$impName}/";
 
             $html = "<html><head><title>403 Forbidden</title></head><body><p>Directory access is forbidden.</p></body></html>";
 
@@ -372,22 +423,38 @@ class Importacoes extends MY_Controller {
             $veryr = $this->fil->get_by_field('fileName', $fullPath);
             if($veryr){
                 $this->session->set_flashdata('danger', "O Arquivo <strong>". $file['name'] ."</strong> ja esta cadastrado!");
-                redirect("saas/importacoes/dbf", 'refresh');
+                redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
             }
 
                     if (!move_uploaded_file($file['tmp_name'], $Path . $nome_final)) {
                         $data['erro'] = 'Erro ao persistir na pasta';
                         $this->session->set_flashdata('danger', $data['erro']);
-                         redirect("saas/importacoes/dbf", 'refresh');
+                        redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
                     } else {
-                    $verify = $this->savedbf($fullPath,$observacoes);
+
+                     $etap = $this->etapas->get_by_id($etapaID);
+                     $attibutes = array(
+                            'arquivo'      => $nome_final,
+                            'locatarioID'  => $this->session->userdata('locatarioID'),
+                            'etapaID'      => $etapaID,
+                            'observacoes'  => $observacoes,
+                            'path'         => $fullPath,
+                            'name'         => $impName,
+                            'obraID'       => $etap->obraID,
+                            'status'       => 0,
+                            'userID'       => $this->session->userdata('usuarioID')
+                            );
+
+                    $importacaoID = $this->import->insert($attibutes);
+                    $verify = $this->savedbf($importacaoID);
 
                     if (!$verify) {
                         $arquivoParaDeletar = $fullPath;
-                        unset($arquivoParaDeletar);
-                        $data['erro'] = 'Erro ao Cadastrar Dados no Banco(certifique-se de que o seu arquivo .DBF segue o padrão Tecnometal.).';
+                        $this->rrmdir($Path);
+                        $this->import->delete($importacaoID);
+                        $data['erro'] = 'Erro ao Cadastrar Dados no Banco(certifique-se de que o seu arquivo .DBF segue o padrão Previsto.).';
                         $this->session->set_flashdata('danger', $data['erro']);
-                        redirect("saas/importacoes/dbf", 'refresh');
+                        redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
                     }else{
                         $log = 'Importação de banco DBF - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address()." - Banco: ".$file['name'];
                         $this->logs->gravar($log);
@@ -400,13 +467,23 @@ class Importacoes extends MY_Controller {
         } catch (Exception $e) {
             $data['erro'] = 'Erro ao importar: ' . $e->getMessage();
             $this->session->set_flashdata('danger', $data['erro']);
-            redirect("saas/importacoes/listar/$subEtapaID", 'refresh');
+            redirect("saas/importacoes/cadastro/".$etapaID, 'refresh');
         }
 
     }
 
-    private function savedbf($dbfname,$observacoes) {
-        $fdbf = fopen($dbfname,'r'); 
+    private function savedbf($importacaoID) {
+        $check = true;
+        $dados = $this->import->get_by_id($importacaoID);
+        $table = $this->db->escape_str('dbfdata');
+        $sql = "DESCRIBE `$table`";
+        $descrition = $this->db->query($sql)->result();
+        $this->db->escape('dbfdata');
+        $desc = array();
+        foreach($descrition as $dd){
+            $desc[] = $dd->Field;
+        }
+        $fdbf = fopen($dados->path,'r'); 
         $fields = array(); 
         $buf = fread($fdbf,32); 
         $header=unpack( "VRecordCount/vFirstRecord/vRecordLength", substr($buf,4,8));
@@ -423,11 +500,36 @@ class Importacoes extends MY_Controller {
         for ($i=1; $i<=$header['RecordCount']; $i++) { 
             $buf = fread($fdbf,$header['RecordLength']); 
             $record=unpack($unpackString,$buf);
-            $record['observacoes'] =  $observacoes;
-            $record['fileName'] =  $dbfname;
+            $record['dbfID'] = 0;
+            $record['observacoes'] =  $dados->observacoes;
+            $record['fileName'] =  $dados->path;
+            $record['importID'] =  $dados->importacaoID;
             $record['locatarioID'] = $this->session->userdata('locatarioID');
-            if(isset($record['X']))
+            
+            if(!isset($chekc)){
+              $RKeys = array_keys($record);
+              foreach($RKeys as $key){
+                if(in_array($key, $desc)){
+                    $check = $check;
+                }else{
+                    $check = false;
+                }
+              }
+              foreach($desc as $ddd){
+                if(in_array($ddd, $RKeys)){
+                    $check = $check;
+                }else{
+                    $check = false;
+                }
+              }
+              if($check === false){
+                fclose($fdbf);
                 return false;
+              }else{
+                $chekc = 1;
+              } 
+            }
+
             $importID = $this->fil->insert($record);
         }
         if(!empty($importID)){
@@ -442,6 +544,7 @@ public function cadastrardwg(){
     $file = $_FILES['dwg'];
     
     $observacoes = $this->input->post('observacoes');
+    $fileID = $this->input->post('fileID');
 
     $upled = array();
     $fullPath = $this->input->post('fileName');
@@ -485,11 +588,12 @@ public function cadastrardwg(){
                 if (!move_uploaded_file($file['tmp_name'][$d], $Path . $nome_final)) {
                     $upled[$d] = "NO&Erro ao fazer upload de <strong>".$file['name'][$d]."</strong>&Erro ao persistir na pasta.";
                 } else {
-                $dwgData = array('fileName' => $nome_final, 
-                                 'dbfName' => $dbfName, 
-                                 'path' => $fullPath,
-                                 'observacoes' =>  $observacoes,
-                                  'locatarioID' => $this->session->userdata('locatarioID')
+                $dwgData = array('fileName'      => $nome_final, 
+                                 'dbfName'       => $dbfName, 
+                                 'path'          => $fullPath,
+                                 'observacoes'   =>  $observacoes,
+                                 'locatarioID'   => $this->session->userdata('locatarioID'),
+                                 'importID'      => $fileID
                                  );
                 $verify = $this->fil2->insert($dwgData);
                  $log = 'Importação de desenhos DWG - Usuario: ' . $this->session->userdata['nomeUsuario'] . ' - IP: ' . $this->input->ip_address(). " - Desenho: ". $nome_final;
@@ -510,7 +614,11 @@ public function cadastrardwg(){
             redirect("saas/importacoes/".$togo, 'refresh');
     }
 
-
+    public function notallowed(){
+        $data['titulo']           = 'GedSteel - Sem Permissão';
+        $data['pagina']           = '401-admin';
+        $this->render($data,$data['pagina'] );
+    }
 
     private function render($data, $pagina)
     {
@@ -545,5 +653,7 @@ public function cadastrardwg(){
      rmdir($dir); 
    } 
 } 
+
+
 
 }

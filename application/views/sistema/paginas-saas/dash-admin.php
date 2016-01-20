@@ -1,11 +1,15 @@
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Dashboard</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+<section class="content-header">
+          <h1>
+            Dashboard
+            <small>Painel Inicial</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li class="active">Home</li>
+          </ol>
+        </section>
     <!-- /.row -->
+
+  <section class="content">
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-main">
@@ -107,4 +111,4 @@
         </div>
     </div>
     <!-- /.row -->
-</div>
+</section>

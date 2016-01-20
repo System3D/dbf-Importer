@@ -23,6 +23,7 @@ class Admin extends MY_Controller {
         $this->render($data);
     }
 
+
     private function render($data)
     {
         $this->load->view('sistema/includes/header', $data, FALSE);

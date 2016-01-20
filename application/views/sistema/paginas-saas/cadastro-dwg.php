@@ -1,11 +1,18 @@
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Arquivos de Banco Importados</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            Arquivos de <i><?= $import->name ?></i>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="<?=base_url('saas/importacoes/obras');?>"><i class="fa fa-building"></i> Obras</a></li>
+            <li><a href="<?=base_url('saas/importacoes/etapas').'/'.$import->etapaID;?>"><i class="fa fa-crop"></i> Etapas</a></li>
+            <li><a href="<?=base_url('saas/importacoes/painel').'/'.$import->importacaoID;?>"><i class="fa fa-upload"></i> Importações</a></li>
+            <li class="active">Desenhos</li>
+          </ol>
+        </section>
     <!-- /.row -->
+
+  <section class="content">
 
     <div class="row">
         <div class="col-lg-4">
@@ -44,6 +51,9 @@
             <br />
         </div>
         <div class="col-lg-4">
+             <?php
+                if($import->status == 0 || ($this->session->userdata('tipoUsuarioID') == 1)){
+             ?>
              <div class="panel panel-default">
                 <div class="panel-heading">
                     Importar Desenhos
@@ -64,6 +74,7 @@
         </div>
 
          <?php
+     }
             if(!empty($this->session->flashdata('message'))){
                 foreach($this->session->flashdata('message') as $msg){
                     list($stat, $header, $messag) = explode('&',$msg);
@@ -128,6 +139,45 @@
                     <p>Todos desenhos Necessarios estão cadastrados!</p>
                 </div>
             </div>
+            <?php
+                if($import->status == 0){
+            ?>
+            <a href="<?= base_url()."saas/importacoes/revok/".$IDfil ?>" class="btn btn-primary btn-block"> <i class="fa fa-paper-plane"></i> &nbsp; Enviar Para Revisão</a>
+            <?php
+                }elseif($import->status == 1){
+            ?>
+            <div class="panel panel-success2">
+                <div class="panel-heading">
+                 <i class="fa fa-check"></i> &nbsp;  Importação Aprovada!
+                </div>
+                <div class="panel-body">
+                   <p> Mensagem do Revisor <br> <br>
+                   <i style='float:right'>   Revisor - João Pinto </i></p>
+                </div>
+            </div>
+            <?php
+                }elseif($import->status == 2){
+            ?>
+            <div class="panel panel-danger2">
+                <div class="panel-heading">
+                  <i class="fa fa-times"></i> &nbsp;  Importação Reprovada!
+                </div>
+                <div class="panel-body">
+                    <p>Mensagem do Revisor <br> <br>
+                      <i style='float:right'> Revisor - Adelaide Barbosa(Zeloso@capiroto.br)</i></p>
+                </div>
+            </div>
+            <?php
+                }elseif($import->status == 3){
+            ?>
+            <div class="panel panel-info2">
+                <div class="panel-heading">
+                   <i class="fa fa-clock-o"></i> &nbsp;  Importação Aguardando Revisão
+                </div>
+            </div>
+            <?php
+                }
+            ?>
             <?php
                 }elseif($status == 2){
             ?>
@@ -239,10 +289,16 @@
                              <div class="col-lg-12" id="editorino">
                                 <h5 style='font-size:16px'>Nome: <strong><?= $fil->fileName ?></strong>
                                 <div style="float:right;margin-right:15px">
+                                <?php
+                                    if($import->status == 0  || ($this->session->userdata('tipoUsuarioID') == 1)){
+                                ?>
                                 <a href="#" title="Editar" class="editedi"><i class="fa fa-pencil fa"></i></a>
                                 &nbsp;
                                 <a href="<?= base_url()."saas/importacoes/excluirdwg/".$fil->dwgID."and".$IDfil ?>" title="Excluir" style="color:red"><i class="fa fa-trash-o fa"></i></a>
                                 &nbsp;
+                                <?php
+                                    }
+                                ?>
                                 <a href="<?= $path ?>" target="_blank" title="Download" style="color:#323232"><i class="fa fa-download fa"></i></a>
                                 </div>
                                 </h5>
@@ -265,10 +321,8 @@
         </div>
 
     </div>
+
+
 </div>
  <a style="float:left" href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
-
- 
-    <!-- /.row -->
-    <br /><hr /><br />
-</div>
+</section>

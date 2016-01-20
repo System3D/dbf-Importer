@@ -12,6 +12,11 @@
 /*==============================================
     GENERAL  STYLES    
     =============================================*/
+
+.footerlink:hover{
+  text-decoration: none;
+  color: #9C9C9C !important;
+}
     
 body {
     font-family: 'Open Sans', sans-serif;

@@ -1,12 +1,15 @@
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Logs do sistema</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            Logs do Sistema
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"> Logs</li>
+          </ol>
+        </section>
     <!-- /.row -->
 
+  <section class="content">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -59,7 +62,7 @@
         </div>
     </div>
     <br /><hr /><br />
-</div>
+</section>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#dataTables').DataTable({

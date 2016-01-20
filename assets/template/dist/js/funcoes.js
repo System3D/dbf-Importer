@@ -352,7 +352,7 @@ var xix = 0;
             var tipoUsuarioID = $("#tipoUsuarioID").val();
             var usuarioLocatarioID = $("#usuarioLocatarioID").val();
 
-            if ( nome != '' && email != '' && senha != '' && tipoUsuarioID != '' && usuarioLocatarioID != '') {
+            if ( nome != '' && email != '' && tipoUsuarioID != '' && usuarioLocatarioID != '') {
                 $('#tipoError2').addClass('hidden');
                 $('#tipoError').addClass('hidden');
                 $('#tipoSuccess').addClass('hidden');

@@ -7,21 +7,26 @@ if (isset($edicao)) {
     $title = 'Cadastro';
 }
 ?>
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"><?=$title;?> de etapa</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            <?= $title ?> de Etapas
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="<?=base_url('saas/importacoes/obras');?>"><i class="fa fa-building"></i> Obras</a></li>
+            <li class="active">Etapas</li>
+          </ol>
+        </section>
     <!-- /.row -->
+
+  <section class="content">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?=$title;?> de etapa
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style='width:90%;margin-left:5%'>
                     <div class="row">
                          <div class="col-lg-12">
                             <form role="form" name="<?=$name;?>" id="<?=$name;?>" accept-charset="utf-8">
@@ -41,7 +46,7 @@ if (isset($edicao)) {
                                 <?php } ?>
                                 <input type="hidden" name="obraID" id="obraID" value="<?=$obraID;?>">
 
-                                <button type="submit" class="btn btn-primary btn-block">Gravar</button>
+                                <button type="submit" style='width:90%;margin-left:5%' class="btn btn-primary btn-block">Gravar</button>
 
                             </form>
                         </div>
@@ -95,3 +100,4 @@ if (isset($edicao)) {
     <!-- /.row -->
     <br /><hr /><br />
 </div>
+</section>

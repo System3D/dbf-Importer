@@ -5169,6 +5169,22 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #7D0909;
 }
 
+
+.panel-alert2 {
+  border-color: #BFA829;
+}
+.panel-alert2 > .panel-heading {
+  color: #EFEFEF;
+  background-color: #D58E1F;
+  border-color: #BFA829;
+}
+.panel-alert2 > .panel-heading + .panel-collapse .panel-body {
+  border-top-color: #BFA829;
+}
+.panel-alert2 > .panel-footer + .panel-collapse .panel-body {
+  border-bottom-color: #BFA829;
+}
+
 .well {
   min-height: 20px;
   padding: 19px;

@@ -12,14 +12,19 @@
         $name = '';
     }
 ?>
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"><?=$title;?> de Usuário</h3>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
+ <section class="content-header">
+          <h1>
+            <?= $title ?>
+            <small> De Usuario</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="<?=base_url('saas/admin');?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"> <?= $title ?> de Usuario</li>
+          </ol>
+        </section>
     <!-- /.row -->
+
+  <section class="content">
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
@@ -31,32 +36,30 @@
                         <div class="col-lg-12">
                             <form role="form" name="<?=$name;?>" id="<?=$name;?>" accept-charset="utf-8">
                                 <div class="form-group">
-                                    <label>Nome:</label>
+                                    <label>Nome/Obra:</label>
                                     <input class="form-control" name="nome" id="nome" <?php if (isset($edicao)) echo 'value="' . $usuarioLocatario->nome . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <div class="form-group">
-                                    <label>Email:</label>
+                                    <label>Email/Codigo:</label>
                                     <input class="form-control" name="email" id="email" <?php if (isset($edicao)) echo 'value="' . $usuarioLocatario->email . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
-                                <?php if(!isset($disable)){ ?>
+                                <?php if(!isset($disable) || $usuarioLocatario->tipoUsuarioID == 7){ ?>
                                  <div class="form-group">
                                     <label>Senha:</label>
-                                    <input class="form-control" name="senha" id="senha" value="">
+                                    <input class="form-control" name="senha" id="senha" <?php if (isset($edicao)) echo 'value="' . $usuarioLocatario->password . '"' ?> <?php if (isset($disable)) echo 'disabled'; ?>>
                                 </div>
                                 <?php } ?>
 
                                 <div class="form-group">
                                     <label>Tipo de Usuário:</label>
-                                    <select class="form-control" name="tipoUsuarioID" id="tipoUsuarioID" <?php if (isset($disable)) echo 'disabled'; ?>>
+                                    <select class="form-control" name="tipoUsuarioID" id="tipoUsuarioID" <?php if (isset($disable) || $this->session->userdata('tipoUsuarioID') != 1) echo 'disabled'; ?>>
                                         <option value="1" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 1) echo 'selected'; ?>>Administrador</option>
-                                        <option value="2" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 2) echo 'selected'; ?>>Planejamento</option>
-                                        <option value="3" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 3) echo 'selected'; ?>>Engenharia</option>
-                                        <option value="4" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 4) echo 'selected'; ?>>PCP</option>
-                                        <option value="5" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 5) echo 'selected'; ?>>Apontador</option>
+                                        <option value="2" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 2) echo 'selected'; ?>>Master</option>
+                                        <option value="3" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 3) echo 'selected'; ?>>Projetista</option>
+                                        <option value="4" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 4) echo 'selected'; ?>>Revisão</option>
+                                        <option value="5" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 5) echo 'selected'; ?>>Fabricação</option>
                                         <option value="6" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 6) echo 'selected'; ?>>Montagem</option>
-                                        <option value="7" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 7) echo 'selected'; ?>>Qualidade</option>
-                                        <option value="8" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 8) echo 'selected'; ?>>Almoxarifado</option>
-                                        <option value="9" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 9) echo 'selected'; ?>>Gestor</option>
+                                        <option value="7" <?php if(isset($edicao) && $usuarioLocatario->tipoUsuarioID == 7) echo 'selected'; ?>>Cliente</option>
                                     </select>
                                 </div>
 
@@ -119,4 +122,4 @@
     <a href="javascript:history.back()" type="button" class="btn btn-default"><< Voltar</a>
     <!-- /.row -->
     <br /><hr /><br />
-</div>
+</section>

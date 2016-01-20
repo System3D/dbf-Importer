@@ -9,18 +9,14 @@
 
     <title>Gedsteel - Login</title>
 
-    <!-- BOOTSTRAP STYLES-->
-    <link href="<?=base_url();?>assets/template/css/bootstrap.css" rel="stylesheet" />
-     <!-- FONTAWESOME STYLES-->
-    <link href="<?=base_url();?>assets/template/css/font-awesome.css" rel="stylesheet" />
-     <!-- MORRIS CHART STYLES-->
-   
-        <!-- CUSTOM STYLES-->
-    <link href="<?=base_url();?>assets/template/css/custom.css" rel="stylesheet" />
-     <!-- GOOGLE FONTS-->
-   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-     <!-- TABLE STYLES-->
-    <link href="<?=base_url();?>assets/template/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="<?=base_url();?>assets/template/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=base_url();?>assets/template/css/AdminLTE.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="<?=base_url();?>assets/template/css/skins/_all-skins.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,61 +27,65 @@
 
 </head>
 
-<body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <p class="text-center">
-                    <br><br>
-                    <img src="<?=base_url('assets/template/img/logo-Steel4web-600.png');?>" alt="Stell4Web" width="300">
-                </p>
-            </div>
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Gedsteel - Login</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" action="<?=base_url('login/acessarSaas');?>" method="post">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail/Codigo de Obra" name="email" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <!-- <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div> -->
-                                <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" value="Login" class="btn btn-lg btn-logout btn-block">
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="<?=base_url();?>assets/template/js/jquery-1.10.2.js"></script>
-      <!-- BOOTSTRAP SCRIPTS -->
-    <script src="<?=base_url();?>assets/template/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="<?=base_url();?>assets/template/js/jquery.metisMenu.js"></script>
-     <!-- DATA TABLE SCRIPTS -->
-    <script src="<?=base_url();?>assets/template/js/dataTables/jquery.dataTables.js"></script>
-    <script src="<?=base_url();?>assets/template/js/dataTables/dataTables.bootstrap.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#dataTables-example').dataTable();
-        });
-    </script>
-         <!-- CUSTOM SCRIPTS -->
-    <script src="assets/js/custom.js"></script>
+
+
+ <body class="hold-transition login-page">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href="../../index2.html"><b>GED</b>Steel</a>
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">Logue-se para começar sua sessão</p>
+        <form role="form" action="<?=base_url('login/acessarSaas');?>" method="post">
+          <div class="form-group has-feedback">
+            <input class="form-control" placeholder="E-mail/Codigo de Obra" name="email" autofocus>
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input class="form-control" placeholder="Password" name="password" type="password" value="">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+              <div class="checkbox icheck" style='margin-left:20px'>
+                <label>
+                  <input type="checkbox"> Lembrar Senha
+                </label>
+              </div>
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+            </div><!-- /.col -->
+          </div>
+        </form>
+
+
+        <a href="#">Esqueci Minha Senha</a><br>
+        <a href="register.html" class="text-center">Registrar nova Conta</a>
+
+      </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="<?=base_url();?>assets/template/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="<?=base_url();?>assets/template/bootstrap/js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="<?=base_url();?>assets/template/plugins/iCheck/icheck.min.js"></script>
     <script src="<?=base_url();?>assets/template/dist/js/jquery.mask.min.js"></script>
     <script src="<?=base_url();?>assets/template/dist/js/funcoes.js"></script>
     <script src="<?=base_url();?>assets/template/js/custom.js"></script>
-</body>
+    <script>
+      $(function () {
+        $('input').iCheck({
+          checkboxClass: 'icheckbox_square-blue',
+          radioClass: 'iradio_square-blue',
+          increaseArea: '20%' // optional
+        });
+      });
+    </script>
+  </body>
+
+
 </html>

@@ -55,7 +55,7 @@ class Obras_model extends CI_Model{
         $this->db->select('*')
                         ->from($this->table)
                         ->where('locatarioID', $this->session->userdata('locatarioID'))
-                        ->order_by('status', 'DESC');
+                        ->order_by('statusObra', 'DESC');
         $query = $this->db->get();
         return $query->result();
     }
@@ -65,7 +65,7 @@ class Obras_model extends CI_Model{
         $this->db->select('*')
                         ->from($this->table)
                         ->where('locatarioID', $this->session->userdata('locatarioID'))
-                        ->order_by('status', 'DESC')->limit(10);
+                        ->order_by('statusObra', 'DESC')->limit(10);
         $query = $this->db->get();
         return $query->result();
     }
