@@ -47,14 +47,31 @@
                   
                   <span class="hidden-xs"><?= $this->session->userdata('nomeUsuario') ?></span>
                 </a>
-                <ul class="dropdown-menu">    
+                <ul class="dropdown-menu">
+                <li class="user-header">
+                    <img src="<?=base_url();?>assets/template/img/avatar.png" class="img-circle" alt="User Image">
+                    <p>
+                      <?= $this->session->userdata('nomeUsuario') ?>
+                      <small>
+                        <?php
+                        if($this->session->userdata('tipoUsuarioID') == 1) echo 'Administrador';
+                        if($this->session->userdata('tipoUsuarioID') == 2) echo 'Master';
+                        if($this->session->userdata('tipoUsuarioID') == 3) echo 'Projetista';
+                        if($this->session->userdata('tipoUsuarioID') == 4) echo 'Revisor';
+                        if($this->session->userdata('tipoUsuarioID') == 5) echo 'Fabricação';
+                        if($this->session->userdata('tipoUsuarioID') == 6) echo 'Montagem';
+                        if($this->session->userdata('tipoUsuarioID') == 7) echo 'Cliente';
+                      ?>
+                      </small>
+                    </p>
+                  </li>   
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="<?=base_url('saas/usuarios/ver').'/'.$this->session->userdata('usuarioID');?>" class="btn btn-default btn-flat">Perfil</a>
+                      <a href="<?=base_url('saas/usuarios/ver').'/'.$this->session->userdata('usuarioID');?>" class="btn btn-logout btn-flat">Perfil</a>
                     </div>
                     <div class="pull-right">
-                      <a href="<?=base_url('logout');?>" class="btn btn-default btn-flat">Logout</a>
+                      <a href="<?=base_url('logout');?>" class="btn btn-logout btn-flat">Logout</a>
                     </div>
                   </li>
                 </ul>
@@ -74,9 +91,9 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
+          <form action="<?=base_url('saas/pesquisa/search')?>" method="post" class="sidebar-form">
             <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <input type="text" name="search" class="form-control" placeholder="Pesquise...">
               <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
               </span>

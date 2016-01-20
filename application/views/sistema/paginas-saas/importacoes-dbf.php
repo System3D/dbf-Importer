@@ -133,6 +133,10 @@
                 ?>
                 <i style='color:blue' title='Aguardando Aprovação' class="fa fa-clock-o fa"></i>
                 <?php
+                   }elseif($fil->status == 0){
+                ?>
+                <i style='color:#575800' title='Aguardando Envio' class="fa fa-pause fa"></i>
+                <?php
                    }
                 ?>
                 </div>

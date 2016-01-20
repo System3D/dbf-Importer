@@ -29,6 +29,21 @@ class Etapas_model extends CI_Model{
         return false;
     }
 
+    public function get_search(){
+          $match = $this->input->post('search');
+          $this->db->select('*')
+            ->from($this->table)
+            ->join('obras', 'obras.obraID = etapas.obraID', 'left');
+          $this->db->like('etapas.codigoEtapa',$match);
+          $this->db->or_like('etapas.observacao',$match)
+          ->or_like('obras.nome',$match)->or_like('obras.descricao',$match)
+          ->or_like('obras.codigo',$match)
+          ->where('obras.locatarioID', $this->session->userdata('locatarioID'));
+          $query = $this->db->get();
+    return $query->result();
+    }
+
+
     public function get_by_field($field, $value, $limit = null)
     {
         $this->db->select('*')

@@ -33,7 +33,7 @@
  <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>GED</b>Steel</a>
+        <a href="../../index2.html"><b style='color:#089953'>GED</b>Steel</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Logue-se para começar sua sessão</p>
